@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lactobluster</title>
+
+<script src="https://unpkg.com/html5-qrcode" defer></script>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+  background:#f6f5f1;
+  color:#171717;
+}
+
+main{
+  max-width:520px;
+  margin:auto;
+  padding:30px 18px 50px;
+}
+
+header{
+  text-align:center;
+  margin:10px 0 30px;
+}
+
+h1{
+  font-size:42px;
+  margin:0;
+  font-weight:800;
+  letter-spacing:-1.5px;
+}
+
+header p{
+  color:#777;
+  margin:8px 0 0;
+}
+
+button{
+  width:100%;
+  border:0;
+  border-radius:18px;
+  padding:18px;
+  background:#111;
+  color:white;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+#reader{
+  display:none;
+  margin-top:20px;
+  border-radius:20px;
+  overflow:hidden;
+  background:#111;
+}
+
+.card{
+  background:white;
+  border-radius:22px;
+  padding:20px;
+  margin-top:20px;
+  box-shadow:0 8px 30px rgba(0,0,0,.07);
+}
+
+.status{
+  margin-top:20px;
+  padding:20px;
+  border-radius:18px;
+  text-align:center;
+}
+
+.status .emoji{
+  font-size:42px;
+}
+
+.status h2{
+  margin:6px 0;
+  font-size:22px;
+}
+
+.green{
+  background:#e8f7ed;
+  color:#167a43;
+}
+
+.orange{
+  background:#fff1dc;
+  color:#b96b00;
+}
+
+.red{
+  background:#fde9e9;
+  color:#bd2525;
+}
+
+.error{
+  color:#c62828;
+  text-align:center;
+  margin-top:18px;
+}
+
+.loading{
+  color:#777;
+  text-align:center;
+  margin-top:18px;
+}
+
+.small{
+  text-align:center;
+  color:#888;
+  font-size:12px;
+  margin-top:15px;
+  line-height:1.4;
+}
+
+.ingredients{
+  margin-top:18px;
+  line-height:1.5;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<main>
+
+<header>
+  <h1>Lactobluster</h1>
+  <p>Scansiona. Controlla. Mangia tranquillo.</p>
+</header>
+
+<button id="start">
+  📷 SCANSIONA PRODOTTO
+</button>
+
+<div id="reader"></div>
+
+<div id="message"></div>
+<div id="result"></div>
+
+</main>
+
+<script>
+
+let scanner = null;
+
+const startButton = document.getElementById("start");
+const reader = document.getElementById("reader");
+const message = document.getElementById("message");
+const result = document.getElementById("result");
+
+function escapeHTML(value){
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;");
+}
+
+function stopScanner(){
+
+  if(scanner){
+
+    scanner.stop().catch(()=>{});
+    scanner.clear().catch(()=>{});
+
+    scanner = null;
+  }
+
+  reader.style.display = "none";
+  startButton.style.display = "block";
+}
+
+function analyzeProduct(product){
+
+  const ingredients =
+    (product.ingredients_text || "").toLowerCase();
+
+  const allergens =
+    (product.allergens || "").toLowerCase();
+
+  if(
+    /senza\s+lattosio/.test(ingredients) ||
+    /lactose[- ]?free/.test(ingredients)
+  ){
+
+    return {
+      className:"green",
+      emoji:"🟢",
+      title:"SENZA LATTOSIO",
+      text:"Il prodotto riporta una dicitura esplicita."
+    };
+  }
+
+  if(
+    /lattosio|lactose/.test(ingredients)
+  ){
+
+    return {
+      className:"red",
+      emoji:"🔴",
+      title:"LATTOSIO RILEVATO",
+      text:"Negli ingredienti è presente un riferimento esplicito al lattosio."
+    };
+  }
+
+  if(
+    /latte|milk|siero|whey|caseina|casein|panna|cream|burro|butter/.test(ingredients) ||
+    /milk|latte/.test(allergens)
+  ){
+
+    return {
+      className:"orange",
+      emoji:"🟠",
+      title:"DA VERIFICARE",
+      text:"Sono presenti latte o derivati. La presenza di latte non significa automaticamente presenza di lattosio."
+    };
+  }
+
+  if(!ingredients.trim()){
+
+    return {
+      className:"orange",
+      emoji:"🟠",
+      title:"DA VERIFICARE",
+      text:"Non sono disponibili abbastanza informazioni sugli ingredienti."
+    };
+  }
+
+  return {
+    className:"green",
+    emoji:"🟢",
+    title:"NESSUN LATTOSIO RILEVATO",
+    text:"Non sono stati trovati riferimenti a lattosio o derivati del latte negli ingredienti disponibili."
+  };
+}
+
+async function searchProduct(code){
+
+  message.innerHTML =
+    '<div class="loading">🔎 Sto cercando il prodotto...</div>';
+
+  result.innerHTML = "";
+
+  try{
+
+    const response =
+      await fetch(
+        "https://world.openfoodfacts.org/api/v2/product/" +
+        encodeURIComponent(code) +
+        ".json"
+      );
+
+    const data = await response.json();
+
+    if(data.status !== 1 || !data.product){
+
+      throw new Error("not-found");
+    }
+
+    const product = data.product;
+    const analysis = analyzeProduct(product);
+
+    const name =
+      product.product_name_it ||
+      product.product_name ||
+      "Prodotto senza nome";
+
+    const brand =
+      product.brands || "";
+
+    const ingredients =
+      product.ingredients_text_it ||
+      product.ingredients_text ||
+      "Ingredienti non disponibili.";
+
+    result.innerHTML = `
+      <div class="card">
+
+        <h2>${escapeHTML(name)}</h2>
+
+        <p>
+          ${escapeHTML(brand)}
+        </p>
+
+        <div class="status ${analysis.className}">
+
+          <div class="emoji">
+            ${analysis.emoji}
+          </div>
+
+          <h2>
+            ${analysis.title}
+          </h2>
+
+          <div>
+            ${escapeHTML(analysis.text)}
+          </div>
+
+        </div>
+
+        <div class="ingredients">
+
+          <strong>Ingredienti disponibili:</strong>
+
+          <br><br>
+
+          ${escapeHTML(ingredients)}
+
+        </div>
+
+        <div class="small">
+
+          Codice EAN: ${escapeHTML(code)}
+          <br>
+          Informazioni prodotto: Open Food Facts
+
+        </div>
+
+      </div>
+    `;
+
+    message.innerHTML = "";
+
+  }catch(error){
+
+    message.innerHTML = `
+      <div class="error">
+
+        ❌ Prodotto non trovato nel database.
+
+        <div class="small">
+          Verifica il codice a barre oppure prova un altro prodotto.
+        </div>
+
+      </div>
+    `;
+  }
+}
+
+async function startScanner(){
+
+  if(!window.Html5Qrcode){
+
+    message.innerHTML =
+      '<div class="error">Scanner ancora in caricamento. Riprova tra qualche secondo.</div>';
+
+    return;
+  }
+
+  startButton.style.display = "none";
+  reader.style.display = "block";
+
+  scanner = new Html5Qrcode("reader");
+
+  try{
+
+    await scanner.start(
+
+      {
+        facingMode:{
+          ideal:"environment"
+        }
+      },
+
+      {
+        fps:12,
+        qrbox:{
+          width:290,
+          height:130
+        }
+      },
+
+      function(decodedText){
+
+        stopScanner();
+
+        searchProduct(decodedText);
+      },
+
+      function(errorMessage){
+        // scansione in corso
+      }
+
+    );
+
+  }catch(error){
+
+    stopScanner();
+
+    message.innerHTML = `
+      <div class="error">
+
+        ❌ Non riesco ad accedere alla fotocamera.
+
+        <div class="small">
+          Controlla che Safari abbia il permesso di utilizzare la fotocamera.
+        </div>
+
+      </div>
+    `;
+  }
+}
+
+startButton.addEventListener(
+  "click",
+  startScanner
+);
+
+</script>
+
+</body>
+</html>
