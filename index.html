@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lactobluster</title>
 
-<script src="https://unpkg.com/html5-qrcode" defer></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
 
 <style>
 *{box-sizing:border-box}
@@ -49,7 +49,6 @@ button{
   color:white;
   font-size:18px;
   font-weight:700;
-  cursor:pointer;
 }
 
 #reader{
@@ -58,6 +57,12 @@ button{
   border-radius:20px;
   overflow:hidden;
   background:#111;
+}
+
+.message{
+  margin-top:18px;
+  text-align:center;
+  color:#777;
 }
 
 .card{
@@ -81,7 +86,6 @@ button{
 
 .status h2{
   margin:6px 0;
-  font-size:22px;
 }
 
 .green{
@@ -105,10 +109,26 @@ button{
   margin-top:18px;
 }
 
-.loading{
-  color:#777;
-  text-align:center;
-  margin-top:18px;
+.fallback{
+  margin-top:20px;
+  padding:18px;
+  background:white;
+  border-radius:20px;
+}
+
+.fallback input{
+  width:100%;
+  padding:14px;
+  margin:12px 0;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-size:17px;
+}
+
+.secondary{
+  background:#e9e9e9;
+  color:#111;
+  font-size:15px;
 }
 
 .small{
@@ -116,13 +136,6 @@ button{
   color:#888;
   font-size:12px;
   margin-top:15px;
-  line-height:1.4;
-}
-
-.ingredients{
-  margin-top:18px;
-  line-height:1.5;
-  font-size:14px;
 }
 </style>
 </head>
@@ -132,18 +145,35 @@ button{
 <main>
 
 <header>
-  <h1>Lactobluster</h1>
-  <p>Scansiona. Controlla. Mangia tranquillo.</p>
+<h1>Lactobluster</h1>
+<p>Scansiona. Controlla. Mangia tranquillo.</p>
 </header>
 
 <button id="start">
-  📷 SCANSIONA PRODOTTO
+📷 SCANSIONA PRODOTTO
 </button>
 
 <div id="reader"></div>
 
-<div id="message"></div>
+<div id="message" class="message"></div>
+
 <div id="result"></div>
+
+<div class="fallback">
+
+<strong>Non riesci a usare la fotocamera?</strong>
+
+<input
+id="ean"
+inputmode="numeric"
+placeholder="Inserisci il codice a barre"
+>
+
+<button id="search">
+🔎 CERCA CODICE
+</button>
+
+</div>
 
 </main>
 
@@ -151,267 +181,332 @@ button{
 
 let scanner = null;
 
-const startButton = document.getElementById("start");
-const reader = document.getElementById("reader");
-const message = document.getElementById("message");
-const result = document.getElementById("result");
+const startButton =
+document.getElementById("start");
+
+const reader =
+document.getElementById("reader");
+
+const message =
+document.getElementById("message");
+
+const result =
+document.getElementById("result");
+
+const ean =
+document.getElementById("ean");
+
+const searchButton =
+document.getElementById("search");
+
 
 function escapeHTML(value){
-  return String(value || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;");
+
+return String(value || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;");
+
 }
+
 
 function stopScanner(){
 
-  if(scanner){
+if(scanner){
 
-    scanner.stop().catch(()=>{});
-    scanner.clear().catch(()=>{});
+try{
 
-    scanner = null;
-  }
+scanner.stop();
 
-  reader.style.display = "none";
-  startButton.style.display = "block";
+}catch(e){}
+
+scanner = null;
+
 }
+
+reader.style.display="none";
+
+startButton.style.display="block";
+
+}
+
 
 function analyzeProduct(product){
 
-  const ingredients =
-    (product.ingredients_text || "").toLowerCase();
+const ingredients =
+(product.ingredients_text_it ||
+product.ingredients_text ||
+"").toLowerCase();
 
-  const allergens =
-    (product.allergens || "").toLowerCase();
+const allergens =
+(product.allergens || "").toLowerCase();
 
-  if(
-    /senza\s+lattosio/.test(ingredients) ||
-    /lactose[- ]?free/.test(ingredients)
-  ){
 
-    return {
-      className:"green",
-      emoji:"🟢",
-      title:"SENZA LATTOSIO",
-      text:"Il prodotto riporta una dicitura esplicita."
-    };
-  }
+if(/senza\s+lattosio|lactose[- ]?free/.test(ingredients)){
 
-  if(
-    /lattosio|lactose/.test(ingredients)
-  ){
+return {
+className:"green",
+emoji:"🟢",
+title:"SENZA LATTOSIO",
+text:"Il prodotto riporta una dicitura esplicita."
+};
 
-    return {
-      className:"red",
-      emoji:"🔴",
-      title:"LATTOSIO RILEVATO",
-      text:"Negli ingredienti è presente un riferimento esplicito al lattosio."
-    };
-  }
-
-  if(
-    /latte|milk|siero|whey|caseina|casein|panna|cream|burro|butter/.test(ingredients) ||
-    /milk|latte/.test(allergens)
-  ){
-
-    return {
-      className:"orange",
-      emoji:"🟠",
-      title:"DA VERIFICARE",
-      text:"Sono presenti latte o derivati. La presenza di latte non significa automaticamente presenza di lattosio."
-    };
-  }
-
-  if(!ingredients.trim()){
-
-    return {
-      className:"orange",
-      emoji:"🟠",
-      title:"DA VERIFICARE",
-      text:"Non sono disponibili abbastanza informazioni sugli ingredienti."
-    };
-  }
-
-  return {
-    className:"green",
-    emoji:"🟢",
-    title:"NESSUN LATTOSIO RILEVATO",
-    text:"Non sono stati trovati riferimenti a lattosio o derivati del latte negli ingredienti disponibili."
-  };
 }
+
+
+if(/lattosio|lactose/.test(ingredients)){
+
+return {
+className:"red",
+emoji:"🔴",
+title:"LATTOSIO RILEVATO",
+text:"Negli ingredienti è presente un riferimento esplicito al lattosio."
+};
+
+}
+
+
+if(
+/latte|milk|siero|whey|caseina|casein|panna|cream|burro|butter/.test(ingredients)
+||
+/milk|latte/.test(allergens)
+){
+
+return {
+className:"orange",
+emoji:"🟠",
+title:"DA VERIFICARE",
+text:"Sono presenti latte o derivati."
+};
+
+}
+
+
+return {
+className:"green",
+emoji:"🟢",
+title:"NESSUN LATTOSIO RILEVATO",
+text:"Non sono stati trovati riferimenti al lattosio."
+};
+
+}
+
 
 async function searchProduct(code){
 
-  message.innerHTML =
-    '<div class="loading">🔎 Sto cercando il prodotto...</div>';
+code = String(code || "")
+.replace(/\D/g,"");
 
-  result.innerHTML = "";
+if(!code){
 
-  try{
+message.innerHTML =
+'<div class="error">Inserisci un codice a barre valido.</div>';
 
-    const response =
-      await fetch(
-        "https://world.openfoodfacts.org/api/v2/product/" +
-        encodeURIComponent(code) +
-        ".json"
-      );
+return;
 
-    const data = await response.json();
-
-    if(data.status !== 1 || !data.product){
-
-      throw new Error("not-found");
-    }
-
-    const product = data.product;
-    const analysis = analyzeProduct(product);
-
-    const name =
-      product.product_name_it ||
-      product.product_name ||
-      "Prodotto senza nome";
-
-    const brand =
-      product.brands || "";
-
-    const ingredients =
-      product.ingredients_text_it ||
-      product.ingredients_text ||
-      "Ingredienti non disponibili.";
-
-    result.innerHTML = `
-      <div class="card">
-
-        <h2>${escapeHTML(name)}</h2>
-
-        <p>
-          ${escapeHTML(brand)}
-        </p>
-
-        <div class="status ${analysis.className}">
-
-          <div class="emoji">
-            ${analysis.emoji}
-          </div>
-
-          <h2>
-            ${analysis.title}
-          </h2>
-
-          <div>
-            ${escapeHTML(analysis.text)}
-          </div>
-
-        </div>
-
-        <div class="ingredients">
-
-          <strong>Ingredienti disponibili:</strong>
-
-          <br><br>
-
-          ${escapeHTML(ingredients)}
-
-        </div>
-
-        <div class="small">
-
-          Codice EAN: ${escapeHTML(code)}
-          <br>
-          Informazioni prodotto: Open Food Facts
-
-        </div>
-
-      </div>
-    `;
-
-    message.innerHTML = "";
-
-  }catch(error){
-
-    message.innerHTML = `
-      <div class="error">
-
-        ❌ Prodotto non trovato nel database.
-
-        <div class="small">
-          Verifica il codice a barre oppure prova un altro prodotto.
-        </div>
-
-      </div>
-    `;
-  }
 }
+
+
+message.innerHTML =
+"🔎 Sto cercando il prodotto...";
+
+result.innerHTML="";
+
+
+try{
+
+const response = await fetch(
+
+"https://world.openfoodfacts.org/api/v2/product/"
++
+encodeURIComponent(code)
++
+".json"
+
+);
+
+const data = await response.json();
+
+
+if(data.status !== 1){
+
+throw new Error("not-found");
+
+}
+
+
+const product = data.product;
+
+const analysis =
+analyzeProduct(product);
+
+const name =
+product.product_name_it ||
+product.product_name ||
+"Prodotto senza nome";
+
+const brand =
+product.brands || "";
+
+const ingredients =
+product.ingredients_text_it ||
+product.ingredients_text ||
+"Ingredienti non disponibili.";
+
+
+result.innerHTML = `
+
+<div class="card">
+
+<h2>${escapeHTML(name)}</h2>
+
+<p>${escapeHTML(brand)}</p>
+
+<div class="status ${analysis.className}">
+
+<div class="emoji">
+${analysis.emoji}
+</div>
+
+<h2>
+${analysis.title}
+</h2>
+
+<div>
+${escapeHTML(analysis.text)}
+</div>
+
+</div>
+
+<p>
+<strong>Ingredienti:</strong>
+</p>
+
+<p>
+${escapeHTML(ingredients)}
+</p>
+
+<div class="small">
+Codice EAN: ${escapeHTML(code)}
+<br>
+Dati: Open Food Facts
+</div>
+
+</div>
+
+`;
+
+message.innerHTML="";
+
+
+}catch(error){
+
+message.innerHTML =
+'<div class="error">❌ Prodotto non trovato.</div>';
+
+}
+
+}
+
 
 async function startScanner(){
 
-  if(!window.Html5Qrcode){
+message.innerHTML =
+"📷 Avvio fotocamera...";
 
-    message.innerHTML =
-      '<div class="error">Scanner ancora in caricamento. Riprova tra qualche secondo.</div>';
 
-    return;
-  }
+reader.style.display="block";
 
-  startButton.style.display = "none";
-  reader.style.display = "block";
 
-  scanner = new Html5Qrcode("reader");
+try{
 
-  try{
+scanner =
+new Html5Qrcode("reader");
 
-    await scanner.start(
 
-      {
-        facingMode:{
-          ideal:"environment"
-        }
-      },
+await scanner.start(
 
-      {
-        fps:12,
-        qrbox:{
-          width:290,
-          height:130
-        }
-      },
+{
+facingMode:"environment"
+},
 
-      function(decodedText){
+{
+fps:10,
+qrbox:{
+width:290,
+height:130
+}
+},
 
-        stopScanner();
+decodedText => {
 
-        searchProduct(decodedText);
-      },
+stopScanner();
 
-      function(errorMessage){
-        // scansione in corso
-      }
+searchProduct(decodedText);
 
-    );
+},
 
-  }catch(error){
+errorMessage => {}
 
-    stopScanner();
+);
 
-    message.innerHTML = `
-      <div class="error">
 
-        ❌ Non riesco ad accedere alla fotocamera.
+startButton.style.display="none";
 
-        <div class="small">
-          Controlla che Safari abbia il permesso di utilizzare la fotocamera.
-        </div>
+message.innerHTML =
+"📷 Inquadra il codice a barre";
 
-      </div>
-    `;
-  }
+
+}catch(error){
+
+stopScanner();
+
+message.innerHTML = `
+
+<div class="error">
+
+❌ Non riesco ad accedere alla fotocamera.
+
+<div class="small">
+
+Apri Lactobluster direttamente in Safari
+e consenti l'accesso alla fotocamera.
+
+</div>
+
+</div>
+
+`;
+
 }
 
+}
+
+
 startButton.addEventListener(
-  "click",
-  startScanner
+"click",
+startScanner
+);
+
+
+searchButton.addEventListener(
+"click",
+() => searchProduct(ean.value)
+);
+
+
+ean.addEventListener(
+"keydown",
+event => {
+
+if(event.key === "Enter"){
+
+searchProduct(ean.value);
+
+}
+
+}
 );
 
 </script>
