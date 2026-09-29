@@ -2,591 +2,1191 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f6f5f1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F6F5F1">
+
 <title>Lactobluster</title>
-<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script src="https://unpkg.com/html5-qrcode" defer></script>
+
 <style>
-*{box-sizing:border-box}
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
-background:#f6f5f1;
-color:#171717;
+:root {
+    --bg: #f6f5f1;
+    --white: #ffffff;
+    --black: #111111;
+    --gray: #777;
+    --light-gray: #e9e7e2;
+
+    --green: #16a05d;
+    --green-bg: #e7f7ed;
+
+    --orange: #ed941b;
+    --orange-bg: #fff2dc;
+
+    --red: #e54848;
+    --red-bg: #fde9e9;
 }
-main{
-max-width:520px;
-margin:auto;
-padding:28px 18px 50px;
+
+* {
+    box-sizing: border-box;
 }
-header{
-text-align:center;
-margin:8px 0 26px;
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--black);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        Arial,
+        sans-serif;
 }
-h1{
-font-size:42px;
-margin:0;
-font-weight:800;
-letter-spacing:-1.8px;
+
+.app {
+    width: 100%;
+    max-width: 520px;
+    margin: auto;
+    padding: 28px 18px 45px;
 }
-header p{
-color:#777;
-margin:8px 0 0;
-font-size:18px;
+
+/* HEADER */
+
+header {
+    text-align: center;
+    padding: 8px 0 26px;
 }
-button{
-width:100%;
-border:0;
-border-radius:18px;
-padding:18px;
-background:#111;
-color:#fff;
-font-size:18px;
-font-weight:750;
-cursor:pointer;
+
+.logo {
+    margin: 0;
+    font-size: 46px;
+    line-height: .95;
+    font-weight: 900;
+    letter-spacing: -3px;
 }
-#reader{
-display:none;
-margin-top:18px;
-border-radius:22px;
-overflow:hidden;
-background:#111;
+
+.tagline {
+    margin: 12px 0 0;
+    font-size: 17px;
+    color: #777;
 }
-.message{
-margin-top:15px;
-text-align:center;
-color:#777;
-min-height:20px;
+
+/* SCAN BUTTON */
+
+.scan-button {
+    width: 100%;
+    height: 64px;
+    border: 0;
+    border-radius: 22px;
+    background: #111;
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.10);
 }
-.card{
-background:#fff;
-border-radius:24px;
-padding:20px;
-margin-top:20px;
-box-shadow:0 8px 30px rgba(0,0,0,.07);
+
+.scan-button:active {
+    transform: scale(.98);
 }
-.product-head{
-display:flex;
-align-items:center;
-gap:16px;
+
+/* CAMERA */
+
+#reader {
+    display: none;
+    margin-top: 16px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: #000;
 }
-.product-thumb{
-width:88px;
-height:88px;
-object-fit:contain;
-border-radius:16px;
-background:#f3f3f1;
-flex:0 0 88px;
+
+/* RESULT */
+
+.product-card {
+    margin-top: 20px;
+    background: white;
+    border-radius: 30px;
+    padding: 20px;
+    box-shadow: 0 12px 35px rgba(0,0,0,.07);
 }
-.product-info{
-min-width:0;
+
+/* PRODUCT HEADER */
+
+.product-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
-.product-info h2{
-margin:0 0 6px;
-font-size:25px;
-line-height:1.08;
+
+.product-image {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    object-fit: contain;
+    border-radius: 20px;
+    background: #f3f2ee;
+    padding: 8px;
 }
-.product-info p{
-margin:0;
-color:#777;
+
+.product-info {
+    min-width: 0;
 }
-.status{
-margin-top:18px;
-padding:20px;
-border-radius:20px;
-text-align:center;
+
+.brand {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: #777;
 }
-.status .emoji{
-font-size:42px;
-line-height:1;
+
+.product-name {
+    margin: 0;
+    font-size: 25px;
+    line-height: 1.08;
+    font-weight: 850;
+    letter-spacing: -.7px;
 }
-.status h2{
-margin:8px 0 7px;
-font-size:25px;
-line-height:1.05;
+
+/* STATUS */
+
+.status {
+    margin-top: 20px;
+    border-radius: 24px;
+    padding: 21px;
 }
-.green{
-background:#e8f7ed;
-color:#167a43;
+
+.status.green {
+    background: var(--green-bg);
+    color: #147b46;
 }
-.orange{
-background:#fff1dc;
-color:#a96300;
+
+.status.orange {
+    background: var(--orange-bg);
+    color: #ad6700;
 }
-.red{
-background:#fde9e9;
-color:#bd2525;
+
+.status.red {
+    background: var(--red-bg);
+    color: #bd2929;
 }
-.ingredients{
-line-height:1.45;
+
+.status-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
-.alternatives{
-margin-top:24px;
+
+.status-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
-.alternatives h3{
-margin:0 0 5px;
-font-size:21px;
+
+.green .status-dot {
+    background: var(--green);
 }
-.alt-intro{
-color:#777;
-margin:0 0 13px;
-font-size:15px;
+
+.orange .status-dot {
+    background: var(--orange);
 }
-.alt-list{
-display:flex;
-gap:10px;
-overflow-x:auto;
-padding-bottom:5px;
+
+.red .status-dot {
+    background: var(--red);
 }
-.alt{
-min-width:135px;
-background:#f7f7f5;
-border-radius:17px;
-padding:10px;
+
+.status h2 {
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.05;
+    font-weight: 900;
 }
-.alt img{
-width:100%;
-height:95px;
-object-fit:contain;
-border-radius:12px;
-background:white;
+
+.status p {
+    margin: 11px 0 0;
+    font-size: 15px;
+    line-height: 1.45;
 }
-.alt-name{
-font-size:13px;
-font-weight:700;
-line-height:1.2;
-margin-top:8px;
+
+/* INGREDIENTS */
+
+.section-title {
+    margin: 24px 0 9px;
+    font-size: 19px;
+    font-weight: 850;
 }
-.alt-brand{
-font-size:11px;
-color:#777;
-margin-top:3px;
+
+.ingredients {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
 }
-.alt-badge{
-display:inline-block;
-margin-top:7px;
-font-size:10px;
-font-weight:700;
-color:#167a43;
-background:#e8f7ed;
-padding:4px 7px;
-border-radius:999px;
+
+/* ALTERNATIVES */
+
+.alternative-header {
+    margin-top: 27px;
 }
-.fallback{
-margin-top:20px;
-padding:20px;
-background:#fff;
-border-radius:22px;
+
+.alternative-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 850;
 }
-.fallback strong{
-font-size:18px;
+
+.alternative-header p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #888;
 }
-.fallback input{
-width:100%;
-padding:15px;
-margin:12px 0;
-border:1px solid #ddd;
-border-radius:13px;
-font-size:17px;
-background:#fff;
+
+.alternatives {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 13px 1px 5px;
+    scrollbar-width: none;
 }
-.note{
-margin-top:18px;
-padding:14px 15px;
-border-radius:15px;
-background:#f1f1ef;
-color:#666;
-font-size:13px;
-line-height:1.4;
+
+.alternatives::-webkit-scrollbar {
+    display: none;
 }
-.small{
-text-align:center;
-color:#888;
-font-size:12px;
-margin-top:15px;
+
+.alternative {
+    min-width: 155px;
+    max-width: 155px;
+    padding: 10px;
+    border-radius: 20px;
+    background: #f6f5f1;
 }
-.error{
-color:#c62828;
-text-align:center;
-margin-top:18px;
+
+.alternative img {
+    width: 100%;
+    height: 105px;
+    object-fit: contain;
+    background: white;
+    border-radius: 14px;
+}
+
+.alternative-name {
+    margin-top: 9px;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 800;
+}
+
+.alternative-brand {
+    margin-top: 4px;
+    color: #888;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lactose-free {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: var(--green-bg);
+    color: #147b46;
+    font-size: 10px;
+    font-weight: 850;
+}
+
+/* EAN */
+
+.ean {
+    margin-top: 22px;
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+}
+
+/* MANUAL SEARCH */
+
+.manual {
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 26px;
+}
+
+.manual h3 {
+    margin: 0 0 12px;
+    font-size: 19px;
+}
+
+.manual input {
+    width: 100%;
+    height: 54px;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 0 16px;
+    font-size: 17px;
+    outline: none;
+}
+
+.manual input:focus {
+    border-color: #888;
+}
+
+.manual button {
+    width: 100%;
+    height: 54px;
+    margin-top: 10px;
+    border: 0;
+    border-radius: 16px;
+    background: #111;
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+/* MESSAGES */
+
+.message {
+    text-align: center;
+    margin: 14px 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.error {
+    color: #d63333;
+}
+
+.disclaimer {
+    margin: 18px 8px 0;
+    text-align: center;
+    color: #888;
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+/* MOBILE */
+
+@media(max-width:380px) {
+
+    .logo {
+        font-size: 40px;
+    }
+
+    .product-name {
+        font-size: 22px;
+    }
+
+    .product-image {
+        width: 85px;
+        height: 85px;
+    }
 }
 </style>
 </head>
+
 <body>
-<main>
+
+<div class="app">
+
 <header>
-<h1>Lactobluster</h1>
-<p>Scansiona. Controlla. Mangia tranquillo.</p>
+    <h1 class="logo">Lactobluster</h1>
+    <p class="tagline">
+        Scansiona. Controlla. Mangia tranquillo.
+    </p>
 </header>
-<button id="start">
-📷 SCANSIONA PRODOTTO
+
+<button class="scan-button" id="scanButton">
+    📷 &nbsp; SCANSIONA PRODOTTO
 </button>
+
 <div id="reader"></div>
+
 <div id="message" class="message"></div>
+
 <div id="result"></div>
-<div class="fallback">
-<strong>Non riesci a usare la fotocamera?</strong>
-<input
-id="ean"
-inputmode="numeric"
-autocomplete="off"
-placeholder="Inserisci il codice a barre"
->
-<button id="search">
-🔎 CERCA CODICE
-</button>
+
+<section class="manual">
+
+    <h3>Inserisci il codice a barre</h3>
+
+    <input
+        id="ean"
+        type="text"
+        inputmode="numeric"
+        placeholder="es. 8007290000477"
+    >
+
+    <button id="searchButton">
+        CERCA PRODOTTO
+    </button>
+
+</section>
+
+<p class="disclaimer">
+    Dati forniti da Open Food Facts.
+    Per allergie e intolleranze verifica sempre anche l'etichetta originale.
+</p>
+
 </div>
-<div class="note">
-⚠️ Lactobluster è un aiuto alla lettura dei dati disponibili.
-Per allergie o intolleranze, verifica sempre la confezione originale
-e l'etichetta aggiornata.
-</div>
-</main>
+
+
 <script>
-let scanner=null;
-const startButton=document.getElementById("start");
-const reader=document.getElementById("reader");
-const message=document.getElementById("message");
-const result=document.getElementById("result");
-const ean=document.getElementById("ean");
-const searchButton=document.getElementById("search");
-function escapeHTML(value){
-return String(value||"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;");
+
+let scanner = null;
+
+
+/* -----------------------------
+   UTILITY
+----------------------------- */
+
+function escapeHTML(value) {
+
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
-function stopScanner(){
-if(scanner){
-try{
-scanner.stop().catch(()=>{});
-}catch(e){}
-scanner=null;
+
+
+/* -----------------------------
+   CLASSIFICAZIONE LATTOSIO
+----------------------------- */
+
+function classifyProduct(product) {
+
+    const ingredients =
+        (
+            product.ingredients_text_it ||
+            product.ingredients_text ||
+            ""
+        ).toLowerCase();
+
+    const labels =
+        (
+            product.labels_it ||
+            product.labels ||
+            ""
+        ).toLowerCase();
+
+    const tags =
+        (
+            product.labels_tags || []
+        ).join(" ").toLowerCase();
+
+    const allergens =
+        (
+            product.allergens ||
+            ""
+        ).toLowerCase();
+
+
+    const allText =
+        ingredients +
+        " " +
+        labels +
+        " " +
+        tags +
+        " " +
+        allergens;
+
+
+    /* SENZA LATTOSIO */
+
+    if (
+        /senza\s+lattosio/.test(allText) ||
+        /lactose[-\s]+free/.test(allText)
+    ) {
+
+        return {
+
+            type: "green",
+
+            title: "SENZA LATTOSIO",
+
+            description:
+                "Il prodotto riporta una dichiarazione relativa all'assenza di lattosio."
+
+        };
+
+    }
+
+
+    /* LATTOSIO ESPLICITO */
+
+    if (
+        /lattosio/.test(ingredients) ||
+        /lactose/.test(ingredients)
+    ) {
+
+        return {
+
+            type: "red",
+
+            title: "LATTOSIO RILEVATO",
+
+            description:
+                "Il lattosio è indicato tra gli ingredienti disponibili nel database."
+
+        };
+
+    }
+
+
+    /* DERIVATI DEL LATTE */
+
+    if (
+        /\blatte\b/.test(ingredients) ||
+        /\bmilk\b/.test(ingredients) ||
+        /siero/.test(ingredients) ||
+        /whey/.test(ingredients) ||
+        /caseina/.test(ingredients) ||
+        /casein/.test(ingredients) ||
+        /panna/.test(ingredients) ||
+        /burro/.test(ingredients)
+    ) {
+
+        return {
+
+            type: "orange",
+
+            title: "DA VERIFICARE",
+
+            description:
+                "Sono presenti latte o derivati. Controlla la confezione per verificare la presenza di lattosio."
+
+        };
+
+    }
+
+
+    /* DATI ASSENTI */
+
+    if (!ingredients.trim()) {
+
+        return {
+
+            type: "orange",
+
+            title: "DATI INSUFFICIENTI",
+
+            description:
+                "Non sono disponibili abbastanza informazioni per una valutazione affidabile."
+
+        };
+
+    }
+
+
+    /* NESSUN RIFERIMENTO */
+
+    return {
+
+        type: "green",
+
+        title: "LATTOSIO NON RILEVATO",
+
+        description:
+            "Non è stato trovato un riferimento al lattosio negli ingredienti disponibili."
+
+    };
 }
-reader.style.display="none";
-startButton.style.display="block";
+
+
+/* -----------------------------
+   ALTERNATIVE
+----------------------------- */
+
+async function findAlternatives(product) {
+
+    const categories =
+        product.categories_tags || [];
+
+    if (!categories.length)
+        return [];
+
+
+    const category =
+        categories[categories.length - 1];
+
+
+    try {
+
+        const params = new URLSearchParams({
+
+            categories_tags: category,
+
+            page_size: "40",
+
+            fields:
+                "code,product_name,product_name_it,brands,image_front_small_url,image_front_thumb_url,ingredients_text_it,ingredients_text,labels,labels_tags"
+
+        });
+
+
+        const response =
+            await fetch(
+                "https://world.openfoodfacts.org/api/v2/search?" +
+                params.toString()
+            );
+
+
+        const data =
+            await response.json();
+
+
+        return (data.products || [])
+
+            .filter(item =>
+                item.code &&
+                item.code !== product.code
+            )
+
+            .filter(item => {
+
+                const text = (
+
+                    (item.ingredients_text_it ||
+                     item.ingredients_text ||
+                     "") +
+
+                    " " +
+
+                    (item.labels || "") +
+
+                    " " +
+
+                    (item.labels_tags || []).join(" ")
+
+                ).toLowerCase();
+
+
+                return (
+                    /senza\s+lattosio/.test(text) ||
+                    /lactose[-\s]+free/.test(text)
+                );
+
+            })
+
+            .slice(0, 6);
+
+    }
+
+    catch (error) {
+
+        return [];
+
+    }
 }
-function analyzeProduct(product){
-const ingredients=
-(product.ingredients_text_it ||
-product.ingredients_text ||
-"").toLowerCase();
-const allergens=
-(product.allergens || "").toLowerCase();
-const allergenTags=
-(product.allergens_tags || []).join(" ").toLowerCase();
-const labels=
-(
-(product.labels_it || product.labels || "") +
-" " +
-(product.labels_tags || []).join(" ")
-).toLowerCase();
-const lactoseFree=
-/senza\s+lattosio|senza-lattosio|lactose[- ]?free|lactose-free/
-.test(labels+" "+ingredients);
-const explicitLactose=
-/lattosio|lactose/.test(ingredients);
-const milk=
-/\blatte\b|\bmilk\b|siero|whey|caseina|casein|panna|cream|burro|butter|latte in polvere|milk powder/
-.test(ingredients);
-const milkAllergen=
-/milk|latte/.test(allergens+" "+allergenTags);
-if(explicitLactose && !lactoseFree){
-return {
-className:"red",
-emoji:"🔴",
-title:"LATTOSIO RILEVATO",
-text:"Negli ingredienti è presente un riferimento esplicito al lattosio."
-};
+
+
+/* -----------------------------
+   HTML ALTERNATIVE
+----------------------------- */
+
+function renderAlternatives(products) {
+
+    if (!products.length)
+        return "";
+
+
+    return `
+
+        <div class="alternative-header">
+
+            <h3>Alternative senza lattosio</h3>
+
+            <p>
+                Potrebbero essere adatte come alternativa
+            </p>
+
+        </div>
+
+        <div class="alternatives">
+
+            ${products.map(product => {
+
+                const image =
+                    product.image_front_small_url ||
+                    product.image_front_thumb_url ||
+                    "";
+
+
+                const name =
+                    product.product_name_it ||
+                    product.product_name ||
+                    "Prodotto";
+
+
+                const brand =
+                    product.brands ||
+                    "";
+
+
+                return `
+
+                    <article class="alternative">
+
+                        ${
+                            image
+
+                            ?
+
+                            `<img
+                                src="${escapeHTML(image)}"
+                                alt=""
+                            >`
+
+                            :
+
+                            `<div
+                                style="
+                                    height:105px;
+                                    border-radius:14px;
+                                    background:#eee;
+                                "
+                            ></div>`
+                        }
+
+
+                        <div class="alternative-name">
+
+                            ${escapeHTML(name)}
+
+                        </div>
+
+
+                        <div class="alternative-brand">
+
+                            ${escapeHTML(brand)}
+
+                        </div>
+
+
+                        <span class="lactose-free">
+
+                            ✓ SENZA LATTOSIO
+
+                        </span>
+
+                    </article>
+
+                `;
+
+            }).join("")}
+
+        </div>
+    `;
 }
-if(lactoseFree && !explicitLactose){
-return {
-className:"green",
-emoji:"🟢",
-title:"DICHIARATO SENZA LATTOSIO",
-text:"È presente una dicitura relativa all'assenza di lattosio."
-};
+
+
+/* -----------------------------
+   RICERCA PRODOTTO
+----------------------------- */
+
+async function searchProduct(code) {
+
+    code =
+        String(code || "")
+        .replace(/\D/g, "");
+
+
+    if (!code) {
+
+        document.getElementById("message").innerHTML =
+            '<div class="error">Inserisci un codice a barre valido.</div>';
+
+        return;
+    }
+
+
+    document.getElementById("message").innerHTML =
+        "🔎 Cerco il prodotto…";
+
+
+    document.getElementById("result").innerHTML =
+        "";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "https://world.openfoodfacts.org/api/v2/product/" +
+                encodeURIComponent(code) +
+                ".json"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (data.status !== 1)
+            throw new Error("not-found");
+
+
+        const product =
+            data.product || {};
+
+
+        const classification =
+            classifyProduct(product);
+
+
+        const image =
+            product.image_front_small_url ||
+            product.image_front_thumb_url ||
+            product.image_url ||
+            "";
+
+
+        const name =
+            product.product_name_it ||
+            product.product_name ||
+            "Prodotto senza nome";
+
+
+        const brand =
+            product.brands ||
+            "";
+
+
+        const ingredients =
+            product.ingredients_text_it ||
+            product.ingredients_text ||
+            "Ingredienti non disponibili.";
+
+
+        let alternatives = [];
+
+
+        if (
+            classification.type === "red" ||
+            classification.type === "orange"
+        ) {
+
+            alternatives =
+                await findAlternatives(product);
+
+        }
+
+
+        document.getElementById("result").innerHTML = `
+
+            <section class="product-card">
+
+
+                <!-- PRODOTTO -->
+
+                <div class="product-header">
+
+                    ${
+                        image
+
+                        ?
+
+                        `<img
+                            class="product-image"
+                            src="${escapeHTML(image)}"
+                            alt=""
+                        >`
+
+                        :
+
+                        `<div
+                            class="product-image"
+                            style="
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                font-size:38px;
+                            "
+                        >
+                            📦
+                        </div>`
+                    }
+
+
+                    <div class="product-info">
+
+                        <p class="brand">
+
+                            ${escapeHTML(brand)}
+
+                        </p>
+
+
+                        <h2 class="product-name">
+
+                            ${escapeHTML(name)}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATO -->
+
+                <div class="status ${classification.type}">
+
+                    <div class="status-title">
+
+                        <span class="status-dot"></span>
+
+                        <h2>
+
+                            ${escapeHTML(
+                                classification.title
+                            )}
+
+                        </h2>
+
+                    </div>
+
+
+                    <p>
+
+                        ${escapeHTML(
+                            classification.description
+                        )}
+
+                    </p>
+
+                </div>
+
+
+                <!-- INGREDIENTI -->
+
+                <div class="section-title">
+
+                    Ingredienti
+
+                </div>
+
+
+                <p class="ingredients">
+
+                    ${escapeHTML(ingredients)}
+
+                </p>
+
+
+                <!-- ALTERNATIVE -->
+
+                ${renderAlternatives(alternatives)}
+
+
+                <!-- EAN -->
+
+                <div class="ean">
+
+                    EAN ${escapeHTML(code)}
+                    ·
+                    Open Food Facts
+
+                </div>
+
+            </section>
+
+        `;
+
+
+        document.getElementById("message").innerHTML =
+            "";
+
+
+        document
+            .querySelector(".product-card")
+            ?.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+    }
+
+    catch (error) {
+
+        document.getElementById("message").innerHTML = `
+
+            <div class="error">
+
+                ❌ Prodotto non trovato in Open Food Facts.
+
+            </div>
+
+        `;
+
+    }
+
 }
-if(milk || milkAllergen){
-return {
-className:"orange",
-emoji:"🟠",
-title:"DA VERIFICARE",
-text:"Sono presenti latte o derivati. Controlla la confezione per la dicitura “senza lattosio”."
-};
+
+
+/* -----------------------------
+   SCANNER
+----------------------------- */
+
+function startScanner() {
+
+    const reader =
+        document.getElementById("reader");
+
+    const button =
+        document.getElementById("scanButton");
+
+
+    reader.style.display =
+        "block";
+
+
+    button.style.display =
+        "none";
+
+
+    document.getElementById("message").innerText =
+        "Avvio fotocamera…";
+
+
+    scanner =
+        new Html5Qrcode("reader");
+
+
+    scanner.start(
+
+        {
+            facingMode: "environment"
+        },
+
+        {
+            fps: 10,
+
+            qrbox: {
+                width: 290,
+                height: 130
+            }
+        },
+
+        decodedText => {
+
+            stopScanner();
+
+            searchProduct(decodedText);
+
+        },
+
+        () => {}
+
+    )
+
+    .then(() => {
+
+        document.getElementById("message").innerText =
+            "Inquadra il codice a barre";
+
+    })
+
+    .catch(() => {
+
+        stopScanner();
+
+
+        document.getElementById("message").innerHTML = `
+
+            <div class="error">
+
+                Non riesco ad accedere alla fotocamera.
+                Controlla i permessi di Safari.
+
+            </div>
+
+        `;
+
+    });
+
 }
-if(!ingredients.trim()){
-return {
-className:"orange",
-emoji:"🟠",
-title:"DATI INSUFFICIENTI",
-text:"Open Food Facts non contiene ingredienti sufficienti per una valutazione affidabile."
-};
+
+
+/* -----------------------------
+   STOP SCANNER
+----------------------------- */
+
+function stopScanner() {
+
+    if (scanner) {
+
+        try {
+
+            scanner
+                .stop()
+                .catch(() => {});
+
+        }
+
+        catch (error) {}
+
+        scanner = null;
+
+    }
+
+
+    document.getElementById("reader").style.display =
+        "none";
+
+
+    document.getElementById("scanButton").style.display =
+        "block";
+
 }
-return {
-className:"green",
-emoji:"🟢",
-title:"LATTOSIO NON RILEVATO",
-text:"Negli ingredienti disponibili non sono stati trovati riferimenti a lattosio o derivati del latte."
-};
-}
-async function findAlternatives(product){
-const categories=
-product.categories_tags || [];
-if(!categories.length){
-return [];
-}
-const category=categories[categories.length-1];
-try{
-const params=new URLSearchParams({
-categories_tags:category,
-page_size:"20",
-fields:
-"code,product_name,product_name_it,brands,image_front_small_url,image_front_thumb_url,ingredients_text_it,ingredients_text,labels,labels_tags"
-});
-const response=
-await fetch(
-"https://world.openfoodfacts.org/api/v2/search?"
-+
-params.toString()
-);
-const data=await response.json();
-const products=data.products || [];
-return products
-.filter(p =>
-p.code &&
-p.code !== product.code
-)
-.filter(p => {
-const text=
-(
-(p.ingredients_text_it ||
-p.ingredients_text ||
-"") +
-" " +
-(p.labels || "") +
-" " +
-(p.labels_tags || []).join(" ")
-).toLowerCase();
-return /senza\s+lattosio|senza-lattosio|lactose[- ]?free|lactose-free/
-.test(text);
-})
-.slice(0,3);
-}catch(error){
-return [];
-}
-}
-function renderAlternatives(products){
-if(!products.length){
-return "";
-}
-return `
-<div class="alternatives">
-<h3>💡 Alternative senza lattosio</h3>
-<p class="alt-intro">
-Abbiamo trovato prodotti simili che riportano
-un riferimento al senza lattosio.
-</p>
-<div class="alt-list">
-${products.map(product => {
-const image=
-product.image_front_small_url ||
-product.image_front_thumb_url ||
-"";
-return `
-<div class="alt">
-${image ? `
-<img
-src="${escapeHTML(image)}"
-alt=""
->
-` : ""}
-<div class="alt-name">
-${escapeHTML(
-product.product_name_it ||
-product.product_name ||
-"Prodotto"
-)}
-</div>
-<div class="alt-brand">
-${escapeHTML(
-product.brands || ""
-)}
-</div>
-<div class="alt-badge">
-🟢 SENZA LATTOSIO
-</div>
-</div>
-`;
-}).join("")}
-</div>
-</div>
-`;
-}
-async function searchProduct(code){
-code=
-String(code||"")
-.replace(/\D/g,"");
-if(!code){
-message.innerHTML=
-'<div class="error">Inserisci un codice a barre valido.</div>';
-return;
-}
-message.innerHTML=
-"🔎 Sto cercando il prodotto...";
-result.innerHTML="";
-try{
-const response=
-await fetch(
-"https://world.openfoodfacts.org/api/v2/product/"
-+
-encodeURIComponent(code)
-+
-".json"
-);
-const data=
-await response.json();
-if(data.status!==1){
-throw new Error("not-found");
-}
-const product=
-data.product || {};
-const analysis=
-analyzeProduct(product);
-const name=
-product.product_name_it ||
-product.product_name ||
-"Prodotto senza nome";
-const brand=
-product.brands ||
-"";
-const ingredients=
-product.ingredients_text_it ||
-product.ingredients_text ||
-"Ingredienti non disponibili.";
-const image=
-product.image_front_small_url ||
-product.image_front_thumb_url ||
-product.image_url ||
-"";
-message.innerHTML=
-"🔎 Cerco anche eventuali alternative...";
-const alternatives=
-await findAlternatives(product);
-result.innerHTML=`
-<div class="card">
-<div class="product-head">
-${image ? `
-<img
-class="product-thumb"
-src="${escapeHTML(image)}"
-alt=""
->
-` : ""}
-<div class="product-info">
-<h2>
-${escapeHTML(name)}
-</h2>
-<p>
-${escapeHTML(brand)}
-</p>
-</div>
-</div>
-<div class="status ${analysis.className}">
-<div class="emoji">
-${analysis.emoji}
-</div>
-<h2>
-${analysis.title}
-</h2>
-<div>
-${escapeHTML(analysis.text)}
-</div>
-</div>
-<p>
-<strong>Ingredienti:</strong>
-</p>
-<p class="ingredients">
-${escapeHTML(ingredients)}
-</p>
-${
-analysis.className !== "green"
-?
-renderAlternatives(alternatives)
-:
-""
-}
-<div class="small">
-Codice EAN: ${escapeHTML(code)}
-<br>
-Dati: Open Food Facts
-</div>
-</div>
-`;
-message.innerHTML="";
-}catch(error){
-message.innerHTML=
-'<div class="error">❌ Prodotto non trovato in Open Food Facts.</div>';
-}
-}
-async function startScanner(){
-message.innerHTML=
-"📷 Avvio fotocamera...";
-reader.style.display="block";
-try{
-scanner=
-new Html5Qrcode("reader");
-await scanner.start(
-{
-facingMode:"environment"
-},
-{
-fps:10,
-qrbox:{
-width:290,
-height:130
-}
-},
-decodedText=>{
-stopScanner();
-searchProduct(decodedText);
-},
-()=>{}
-);
-startButton.style.display="none";
-message.innerHTML=
-"📷 Inquadra il codice a barre";
-}catch(error){
-stopScanner();
-message.innerHTML=
-`
-<div class="error">
-❌ Non riesco ad accedere alla fotocamera.
-<div class="small">
-Controlla i permessi della fotocamera
-e apri Lactobluster direttamente in Safari.
-</div>
-</div>
-`;
-}
-}
-startButton.addEventListener(
-"click",
-startScanner
-);
-searchButton.addEventListener(
-"click",
-()=>searchProduct(ean.value)
-);
-ean.addEventListener(
-"keydown",
-event=>{
-if(event.key==="Enter"){
-searchProduct(ean.value);
-}
-}
-);
+
+
+/* -----------------------------
+   EVENTI
+----------------------------- */
+
+document
+    .getElementById("scanButton")
+    .addEventListener(
+        "click",
+        startScanner
+    );
+
+
+document
+    .getElementById("searchButton")
+    .addEventListener(
+        "click",
+        () => {
+
+            searchProduct(
+                document.getElementById("ean").value
+            );
+
+        }
+    );
+
+
+document
+    .getElementById("ean")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Enter") {
+
+                searchProduct(
+                    event.target.value
+                );
+
+            }
+
+        }
+    );
+
 </script>
+
 </body>
 </html>
