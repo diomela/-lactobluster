@@ -2,654 +2,594 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lactobluster</title>
 
-<meta name="theme-color" content="#0B0B0D">
+<meta name="theme-color" content="#0b0b0f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Lactobluster">
 
-<link rel="apple-touch-icon"
-      href="B254A2F-7F3E-4478-B693-CF04829425F8.png">
-
 <link rel="icon"
       type="image/png"
-      href="B254A2F-7F3E-4478-B693-CF04829425F8.png">
+      href="7B254A2F-7F3E-4478-B693-CF04829425F8.png">
 
-<title>Lactobluster</title>
+<link rel="apple-touch-icon"
+      href="7B254A2F-7F3E-4478-B693-CF04829425F8.png">
 
-<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
 <style>
-:root{
-  --bg:#09090b;
-  --surface:#141417;
-  --surface2:#1c1c21;
-  --surface3:#24242a;
-  --border:#29292f;
-  --text:#f5f5f7;
-  --muted:#96969f;
-  --green:#55d879;
-  --green-bg:#102619;
-  --red:#ff5d65;
-  --red-bg:#2b1114;
-  --yellow:#ffc857;
-  --yellow-bg:#2b2110;
-  --purple:#9b7cff;
-  --shadow:0 18px 45px rgba(0,0,0,.35);
+:root {
+    --bg: #09090c;
+    --card: #111116;
+    --card2: #17171d;
+    --text: #f5f5f7;
+    --muted: #8e8e98;
+    --border: #292930;
+
+    --green: #39e879;
+    --green-soft: rgba(57,232,121,.12);
+
+    --red: #ff5c67;
+    --red-soft: rgba(255,92,103,.12);
+
+    --yellow: #ffc857;
+    --yellow-soft: rgba(255,200,87,.12);
 }
 
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-html{
-  background:var(--bg);
+body {
+    margin: 0;
+    background:
+        radial-gradient(circle at 50% -10%, #1b1b22 0%, var(--bg) 42%);
+    color: var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        Helvetica,
+        Arial,
+        sans-serif;
 }
 
-body{
-  margin:0;
-  background:
-    radial-gradient(circle at 50% -10%, #25252c 0, #111114 30%, var(--bg) 55%);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
-               Helvetica,Arial,sans-serif;
-  min-height:100vh;
-}
-
-button,
-input{
-  font:inherit;
-}
-
-button{
-  border:0;
-  cursor:pointer;
-}
-
-.app{
-  width:100%;
-  max-width:680px;
-  margin:0 auto;
-  padding:
-    calc(env(safe-area-inset-top) + 24px)
-    18px
-    calc(env(safe-area-inset-bottom) + 35px);
+.container {
+    width: min(100%, 760px);
+    margin: auto;
+    padding:
+        max(28px, env(safe-area-inset-top))
+        20px
+        50px;
 }
 
 /* HEADER */
 
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:28px;
+.header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 55px;
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
+.app-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #1b1b21;
+    border: 1px solid #303039;
 }
 
-.brand img{
-  width:46px;
-  height:46px;
-  border-radius:13px;
-  object-fit:cover;
+.brand {
+    min-width: 0;
 }
 
-.brand-text{
-  display:flex;
-  flex-direction:column;
+.brand h1 {
+    margin: 0;
+    font-size: 29px;
+    line-height: 1;
+    font-weight: 750;
+    letter-spacing: -1.2px;
 }
 
-.brand-name{
-  font-size:25px;
-  font-weight:800;
-  letter-spacing:-1px;
-}
-
-.brand-sub{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:2px;
-}
-
-.status-dot{
-  width:9px;
-  height:9px;
-  background:var(--green);
-  border-radius:50%;
-  box-shadow:0 0 14px rgba(85,216,121,.7);
+.brand p {
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 15px;
 }
 
 /* HERO */
 
-.hero{
-  margin:18px 0 22px;
+.hero {
+    margin-bottom: 32px;
 }
 
-.hero h1{
-  font-size:42px;
-  line-height:1;
-  letter-spacing:-2px;
-  margin:0 0 10px;
+.hero h2 {
+    margin: 0;
+    font-size: clamp(48px, 13vw, 82px);
+    line-height: .9;
+    letter-spacing: -4px;
+    font-weight: 800;
 }
 
-.hero p{
-  margin:0;
-  color:var(--muted);
-  font-size:17px;
-  line-height:1.45;
+.hero h2 span {
+    display: block;
 }
 
-/* SCANNER BUTTON */
-
-.scan-button{
-  width:100%;
-  min-height:68px;
-  border-radius:22px;
-  background:#f5f5f7;
-  color:#09090b;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:11px;
-  font-size:18px;
-  font-weight:800;
-  box-shadow:0 10px 30px rgba(255,255,255,.08);
-  transition:.18s ease;
+.hero p {
+    margin: 25px 0 0;
+    max-width: 610px;
+    color: var(--muted);
+    font-size: 19px;
+    line-height: 1.45;
 }
 
-.scan-button:active{
-  transform:scale(.98);
+/* BUTTON */
+
+.scan-button {
+    width: 100%;
+    border: 0;
+    border-radius: 22px;
+    padding: 22px 24px;
+
+    background: #f5f5f7;
+    color: #09090c;
+
+    font-size: 19px;
+    font-weight: 750;
+    letter-spacing: -.3px;
+
+    cursor: pointer;
+    transition: transform .15s ease, opacity .15s ease;
 }
 
-.scan-icon{
-  font-size:23px;
+.scan-button:active {
+    transform: scale(.98);
+    opacity: .88;
 }
 
-/* CAMERA */
-
-.camera-wrap{
-  display:none;
-  margin-top:18px;
-  border-radius:26px;
-  overflow:hidden;
-  background:#000;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow);
+.scan-button span {
+    margin-right: 9px;
 }
 
-.camera-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px 16px;
-  background:#111114;
+/* SCANNER */
+
+.scanner-card {
+    display: none;
+    margin-top: 22px;
+    overflow: hidden;
+
+    background: #101014;
+    border: 1px solid var(--border);
+    border-radius: 24px;
 }
 
-.camera-title{
-  font-size:14px;
-  font-weight:700;
+.scanner-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
 }
 
-.close-camera{
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  background:var(--surface3);
-  color:white;
-  font-size:20px;
+.scanner-title {
+    font-size: 17px;
+    font-weight: 700;
 }
 
-#reader{
-  width:100%;
+.close {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: #25252c;
+    color: white;
+    font-size: 25px;
 }
 
-#reader video{
-  width:100%!important;
-  border-radius:0!important;
+#reader {
+    width: 100%;
 }
 
-.scan-frame{
-  position:absolute;
-  inset:50px 40px;
-  border:2px solid rgba(255,255,255,.85);
-  border-radius:18px;
-  pointer-events:none;
+#reader video {
+    width: 100% !important;
+    height: auto !important;
 }
 
-/* MANUAL */
-
-.manual{
-  margin-top:16px;
-  padding:18px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:22px;
-}
-
-.manual-label{
-  color:var(--muted);
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:9px;
-}
-
-.manual-row{
-  display:flex;
-  gap:9px;
-}
-
-.manual input{
-  flex:1;
-  min-width:0;
-  background:var(--surface2);
-  border:1px solid var(--border);
-  color:white;
-  border-radius:14px;
-  padding:15px;
-  outline:none;
-  font-size:16px;
-}
-
-.manual input:focus{
-  border-color:#55555e;
-}
-
-.manual button{
-  width:52px;
-  border-radius:14px;
-  background:white;
-  color:#111;
-  font-size:20px;
+#reader__dashboard {
+    display: none !important;
 }
 
 /* RESULT */
 
-.result{
-  display:none;
-  margin-top:24px;
+.result {
+    margin-top: 24px;
 }
 
-.product-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:28px;
-  overflow:hidden;
-  box-shadow:var(--shadow);
+.product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    overflow: hidden;
 }
 
-.product-head{
-  padding:20px;
-  display:flex;
-  gap:16px;
-  align-items:center;
+.product-head {
+    display: flex;
+    gap: 18px;
+    padding: 22px;
+    align-items: center;
 }
 
-.product-image{
-  width:96px;
-  height:96px;
-  flex:0 0 96px;
-  border-radius:20px;
-  background:var(--surface2);
-  object-fit:contain;
-  padding:7px;
+.product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 18px;
+    background: #f4f4f4;
+    flex-shrink: 0;
 }
 
-.product-info{
-  min-width:0;
+.product-info h3 {
+    margin: 0;
+    font-size: 25px;
+    line-height: 1.05;
+    letter-spacing: -.8px;
 }
 
-.product-name{
-  font-size:23px;
-  line-height:1.08;
-  font-weight:800;
-  letter-spacing:-.7px;
-  margin:0 0 7px;
+.product-brand {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 15px;
 }
 
-.product-brand{
-  color:var(--muted);
-  font-size:14px;
+/* STATUS */
+
+.status {
+    margin: 0 22px 22px;
+    padding: 27px 20px;
+    border-radius: 22px;
+    text-align: center;
 }
 
-.ean{
-  margin-top:5px;
-  color:#66666e;
-  font-size:11px;
+.status-icon {
+    width: 14px;
+    height: 14px;
+    margin: 0 auto 17px;
+    border-radius: 50%;
 }
 
-/* VERDICT */
-
-.verdict{
-  margin:0 16px 16px;
-  padding:23px 18px;
-  border-radius:22px;
-  text-align:center;
+.status h4 {
+    margin: 0;
+    font-size: 25px;
+    letter-spacing: -.6px;
 }
 
-.verdict-icon{
-  width:52px;
-  height:52px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 12px;
-  border-radius:50%;
-  font-size:27px;
-  font-weight:800;
+.status p {
+    margin: 11px auto 0;
+    max-width: 500px;
+    color: inherit;
+    opacity: .75;
+    font-size: 16px;
+    line-height: 1.45;
 }
 
-.verdict-title{
-  font-size:25px;
-  font-weight:850;
-  letter-spacing:-.7px;
+.safe {
+    background: var(--green-soft);
+    color: var(--green);
 }
 
-.verdict-text{
-  margin-top:7px;
-  font-size:14px;
-  line-height:1.45;
-  opacity:.8;
+.safe .status-icon {
+    background: var(--green);
+    box-shadow: 0 0 20px rgba(57,232,121,.55);
 }
 
-.verdict.safe{
-  background:var(--green-bg);
-  color:var(--green);
+.danger {
+    background: var(--red-soft);
+    color: var(--red);
 }
 
-.verdict.safe .verdict-icon{
-  background:#1c7e38;
-  color:white;
+.danger .status-icon {
+    background: var(--red);
+    box-shadow: 0 0 20px rgba(255,92,103,.45);
 }
 
-.verdict.danger{
-  background:var(--red-bg);
-  color:var(--red);
+.warning {
+    background: var(--yellow-soft);
+    color: var(--yellow);
 }
 
-.verdict.danger .verdict-icon{
-  background:#b52d36;
-  color:white;
-}
-
-.verdict.warning{
-  background:var(--yellow-bg);
-  color:var(--yellow);
-}
-
-.verdict.warning .verdict-icon{
-  background:#9b7117;
-  color:white;
+.warning .status-icon {
+    background: var(--yellow);
 }
 
 /* DETAILS */
 
-.details{
-  padding:0 20px 20px;
+.details {
+    padding: 0 22px 25px;
 }
 
-.section-title{
-  font-size:15px;
-  font-weight:800;
-  margin:18px 0 10px;
+.detail-title {
+    margin: 0 0 9px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
-.ingredients{
-  color:#c9c9cf;
-  font-size:14px;
-  line-height:1.6;
-  background:var(--surface2);
-  border-radius:16px;
-  padding:14px;
+.ingredients {
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 16px;
 }
 
 /* ALTERNATIVES */
 
-.alternatives{
-  display:none;
-  margin-top:18px;
+.alternatives {
+    margin-top: 18px;
+    padding: 22px;
+
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 22px;
 }
 
-.alt-header{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  margin-bottom:11px;
+.alternatives h3 {
+    margin: 0;
+    font-size: 19px;
 }
 
-.alt-title{
-  font-size:19px;
-  font-weight:800;
-  letter-spacing:-.3px;
+.alternatives p {
+    color: var(--muted);
+    line-height: 1.45;
+    margin: 9px 0 18px;
 }
 
-.alt-sub{
-  color:var(--muted);
-  font-size:12px;
+.alt-list {
+    display: grid;
+    gap: 10px;
 }
 
-.alt-list{
-  display:flex;
-  gap:10px;
-  overflow-x:auto;
-  padding-bottom:4px;
-  scrollbar-width:none;
+.alt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 14px 16px;
+
+    background: #202027;
+    border-radius: 15px;
 }
 
-.alt-list::-webkit-scrollbar{
-  display:none;
+.alt strong {
+    font-size: 15px;
 }
 
-.alt-card{
-  min-width:155px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:19px;
-  padding:11px;
+.alt span {
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.alt-image{
-  width:100%;
-  height:105px;
-  object-fit:contain;
-  background:white;
-  border-radius:13px;
-  margin-bottom:9px;
+/* MANUAL */
+
+.manual {
+    margin-top: 24px;
+    padding: 23px;
+
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
 }
 
-.alt-name{
-  font-size:13px;
-  font-weight:750;
-  line-height:1.25;
+.manual h3 {
+    margin: 0 0 15px;
+    font-size: 19px;
 }
 
-.alt-label{
-  color:var(--green);
-  font-size:11px;
-  font-weight:700;
-  margin-top:5px;
+.manual input {
+    width: 100%;
+    padding: 17px 16px;
+
+    background: #19191f;
+    color: white;
+
+    border: 1px solid #34343d;
+    border-radius: 15px;
+
+    font-size: 17px;
+    outline: none;
 }
 
-/* EMPTY */
-
-.empty{
-  margin-top:24px;
-  padding:25px 20px;
-  border:1px dashed #33333a;
-  border-radius:22px;
-  text-align:center;
-  color:var(--muted);
-  display:none;
+.manual input:focus {
+    border-color: #666671;
 }
 
-.empty strong{
-  display:block;
-  color:white;
-  margin-bottom:6px;
+.manual button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 16px;
+
+    border: 0;
+    border-radius: 15px;
+
+    background: #27272f;
+    color: white;
+
+    font-size: 16px;
+    font-weight: 700;
 }
 
 /* LOADING */
 
-.loading{
-  display:none;
-  margin-top:22px;
-  text-align:center;
-  color:var(--muted);
-  font-size:14px;
+.loading {
+    display: none;
+    text-align: center;
+    padding: 35px;
+    color: var(--muted);
 }
 
-.spinner{
-  width:26px;
-  height:26px;
-  margin:0 auto 10px;
-  border:3px solid #33333a;
-  border-top-color:white;
-  border-radius:50%;
-  animation:spin .8s linear infinite;
+.spinner {
+    width: 28px;
+    height: 28px;
+    margin: 0 auto 14px;
+
+    border: 3px solid #303039;
+    border-top-color: var(--green);
+    border-radius: 50%;
+
+    animation: spin .8s linear infinite;
 }
 
-@keyframes spin{
-  to{transform:rotate(360deg)}
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-/* FOOTER */
+.error {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 18px;
 
-.footer{
-  text-align:center;
-  color:#55555d;
-  font-size:11px;
-  margin-top:30px;
+    background: var(--red-soft);
+    color: var(--red);
+
+    line-height: 1.45;
 }
 
 /* MOBILE */
 
-@media(max-width:430px){
-  .hero h1{
-    font-size:37px;
-  }
+@media (max-width: 520px) {
 
-  .product-head{
-    padding:17px;
-  }
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
 
-  .product-image{
-    width:82px;
-    height:82px;
-    flex-basis:82px;
-  }
+    .header {
+        margin-bottom: 45px;
+    }
 
-  .product-name{
-    font-size:20px;
-  }
+    .hero h2 {
+        letter-spacing: -3px;
+    }
+
+    .hero p {
+        font-size: 17px;
+    }
+
+    .product-head {
+        align-items: flex-start;
+    }
+
+    .product-image {
+        width: 82px;
+        height: 82px;
+    }
+
+    .product-info h3 {
+        font-size: 22px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-  <header class="header">
-    <div class="brand">
-      <img src="B254A2F-7F3E-4478-B693-CF04829425F8.png"
-           alt="Lactobluster">
-      <div class="brand-text">
-        <div class="brand-name">Lactobluster</div>
-        <div class="brand-sub">Controllo intelligente del lattosio</div>
-      </div>
+    <!-- HEADER -->
+    <header class="header">
+
+        <img
+            class="app-icon"
+            src="7B254A2F-7F3E-4478-B693-CF04829425F8.png"
+            alt="Lactobluster">
+
+        <div class="brand">
+            <h1>Lactobluster</h1>
+            <p>Controllo intelligente del lattosio</p>
+        </div>
+
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <h2>
+            <span>Scansiona.</span>
+            <span>Controlla.</span>
+        </h2>
+
+        <p>
+            Scopri in pochi secondi se un prodotto
+            contiene lattosio o derivati del latte.
+        </p>
+
+    </section>
+
+
+    <!-- SCAN BUTTON -->
+    <button class="scan-button" onclick="openScanner()">
+        <span>⌁</span> SCANSIONA PRODOTTO
+    </button>
+
+
+    <!-- SCANNER -->
+    <section class="scanner-card" id="scannerCard">
+
+        <div class="scanner-top">
+
+            <div class="scanner-title">
+                Inquadra il codice a barre
+            </div>
+
+            <button class="close" onclick="closeScanner()">
+                ×
+            </button>
+
+        </div>
+
+        <div id="reader"></div>
+
+    </section>
+
+
+    <!-- LOADING -->
+    <div class="loading" id="loading">
+
+        <div class="spinner"></div>
+
+        Sto controllando il prodotto…
+
     </div>
 
-    <div class="status-dot"></div>
-  </header>
+
+    <!-- RESULT -->
+    <div class="result" id="result"></div>
 
 
-  <section class="hero">
-    <h1>Scansiona.<br>Controlla.</h1>
-    <p>Scopri in pochi secondi se un prodotto contiene lattosio o derivati del latte.</p>
-  </section>
+    <!-- MANUAL -->
+    <section class="manual">
 
+        <h3>Inserisci un codice manualmente</h3>
 
-  <button class="scan-button" onclick="openScanner()">
-    <span class="scan-icon">⌁</span>
-    SCANSIONA PRODOTTO
-  </button>
+        <input
+            id="barcodeInput"
+            type="tel"
+            inputmode="numeric"
+            placeholder="Es. 8007290000477">
 
+        <button onclick="manualSearch()">
+            Cerca prodotto
+        </button>
 
-  <div class="camera-wrap" id="cameraWrap">
-
-    <div class="camera-top">
-      <span class="camera-title">Inquadra il codice a barre</span>
-      <button class="close-camera" onclick="closeScanner()">×</button>
-    </div>
-
-    <div id="reader"></div>
-
-  </div>
-
-
-  <div class="manual">
-
-    <div class="manual-label">
-      INSERIMENTO MANUALE
-    </div>
-
-    <div class="manual-row">
-
-      <input
-        id="barcodeInput"
-        type="tel"
-        inputmode="numeric"
-        placeholder="Inserisci codice EAN"
-        autocomplete="off"
-      >
-
-      <button onclick="searchManual()">→</button>
-
-    </div>
-
-  </div>
-
-
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
-    Sto controllando il prodotto…
-  </div>
-
-
-  <section class="result" id="result"></section>
-
-
-  <div class="alternatives" id="alternatives">
-
-    <div class="alt-header">
-      <div>
-        <div class="alt-title">Prova un'alternativa</div>
-        <div class="alt-sub">Prodotti senza lattosio</div>
-      </div>
-    </div>
-
-    <div class="alt-list" id="altList"></div>
-
-  </div>
-
-
-  <div class="empty" id="empty">
-    <strong>Prodotto non trovato</strong>
-    Non riesco a trovare questo codice nel database Open Food Facts.
-    Prova a controllare il codice EAN.
-  </div>
-
-
-  <div class="footer">
-    Dati alimentari forniti da Open Food Facts
-  </div>
+    </section>
 
 </div>
 
@@ -663,512 +603,390 @@ let scanner = null;
    SCANNER
 ========================= */
 
-function openScanner(){
+function openScanner() {
 
-  document.getElementById("cameraWrap").style.display = "block";
+    const card = document.getElementById("scannerCard");
 
-  if(scanner){
-    return;
-  }
+    card.style.display = "block";
 
-  scanner = new Html5Qrcode("reader");
+    if (scanner) return;
 
-  scanner.start(
-    { facingMode: "environment" },
-    {
-      fps: 10,
-      qrbox: {
-        width: 280,
-        height: 150
-      }
-    },
-    decodedText => {
+    scanner = new Html5Qrcode("reader");
 
-      if(/^\d{8,14}$/.test(decodedText)){
+    scanner.start(
+        { facingMode: "environment" },
 
-        closeScanner();
+        {
+            fps: 10,
+            qrbox: {
+                width: 280,
+                height: 150
+            }
+        },
 
-        document.getElementById("barcodeInput").value = decodedText;
+        barcode => {
 
-        searchProduct(decodedText);
+            scanner.stop().then(() => {
 
-      }
+                scanner.clear();
+                scanner = null;
 
-    },
-    errorMessage => {}
-  )
-  .catch(error => {
+                card.style.display = "none";
 
-    console.log(error);
+                searchProduct(barcode);
 
-    alert(
-      "Non riesco ad accedere alla fotocamera. " +
-      "Puoi inserire manualmente il codice EAN."
-    );
+            });
 
-  });
+        },
 
+        () => {}
+    )
+    .catch(error => {
+
+        console.error(error);
+
+        document.getElementById("reader").innerHTML =
+            '<div style="padding:25px;color:#ff5c67;text-align:center">' +
+            'Impossibile accedere alla fotocamera.<br>' +
+            'Usa il campo per inserire il codice manualmente.' +
+            '</div>';
+
+    });
 }
 
 
-function closeScanner(){
+function closeScanner() {
 
-  document.getElementById("cameraWrap").style.display = "none";
+    const card = document.getElementById("scannerCard");
 
-  if(scanner){
+    if (scanner) {
 
-    scanner.stop()
-      .then(() => {
-        scanner.clear();
-        scanner = null;
-      })
-      .catch(() => {
-        scanner = null;
-      });
+        scanner.stop()
+            .then(() => {
 
-  }
+                scanner.clear();
+                scanner = null;
+                card.style.display = "none";
 
+            })
+            .catch(() => {
+
+                scanner = null;
+                card.style.display = "none";
+
+            });
+
+    } else {
+
+        card.style.display = "none";
+
+    }
 }
 
 
 /* =========================
-   MANUAL SEARCH
+   MANUAL
 ========================= */
 
-function searchManual(){
+function manualSearch() {
 
-  const code =
-    document.getElementById("barcodeInput").value.trim();
+    const input =
+        document.getElementById("barcodeInput");
 
-  if(!/^\d{8,14}$/.test(code)){
+    const code =
+        input.value.trim();
 
-    alert("Inserisci un codice EAN valido.");
+    if (!code) return;
 
-    return;
-
-  }
-
-  searchProduct(code);
-
+    searchProduct(code);
 }
-
-
-document
-  .getElementById("barcodeInput")
-  .addEventListener("keydown", function(e){
-
-    if(e.key === "Enter"){
-      searchManual();
-    }
-
-  });
 
 
 /* =========================
    OPEN FOOD FACTS
 ========================= */
 
-async function searchProduct(code){
+async function searchProduct(barcode) {
 
-  const result = document.getElementById("result");
-  const empty = document.getElementById("empty");
-  const loading = document.getElementById("loading");
-  const alternatives = document.getElementById("alternatives");
+    const loading =
+        document.getElementById("loading");
 
-  result.style.display = "none";
-  empty.style.display = "none";
-  alternatives.style.display = "none";
+    const result =
+        document.getElementById("result");
 
-  loading.style.display = "block";
+    loading.style.display = "block";
+    result.innerHTML = "";
 
-  try{
+    try {
 
-    const response = await fetch(
-      `https://world.openfoodfacts.org/api/v2/product/${code}.json`
-    );
+        const response = await fetch(
+            `https://world.openfoodfacts.org/api/v2/product/${barcode}.json`
+        );
 
-    const data = await response.json();
+        const data = await response.json();
 
-    loading.style.display = "none";
+        if (
+            data.status !== 1 ||
+            !data.product
+        ) {
 
-    if(
-      !data ||
-      data.status !== 1 ||
-      !data.product
-    ){
+            throw new Error(
+                "Prodotto non trovato."
+            );
 
-      empty.style.display = "block";
+        }
 
-      return;
+        showProduct(
+            data.product,
+            barcode
+        );
 
     }
 
-    renderProduct(data.product);
-
-  }
-  catch(error){
-
-    loading.style.display = "none";
-
-    alert(
-      "Errore di connessione. Controlla la connessione internet e riprova."
-    );
-
-    console.error(error);
-
-  }
-
-}
-
-
-/* =========================
-   LACTOSE ANALYSIS
-========================= */
-
-function analyseLactose(product){
-
-  const ingredients =
-    (product.ingredients_text_it ||
-     product.ingredients_text ||
-     "").toLowerCase();
-
-  const allergens =
-    (product.allergens ||
-     "").toLowerCase();
-
-  const traces =
-    (product.traces ||
-     "").toLowerCase();
-
-  const labels =
-    (product.labels_tags || [])
-      .join(" ")
-      .toLowerCase();
-
-
-  /* PRODOTTO ESPLICITAMENTE SENZA LATTE */
-
-  const lactoseFree =
-    labels.includes("lactose-free") ||
-    labels.includes("senza-lattosio") ||
-    labels.includes("sin-lactosa");
-
-
-  if(lactoseFree){
-
-    return {
-      status:"safe",
-      title:"SENZA LATTOSIO",
-      text:"Il prodotto è indicato come senza lattosio.",
-      icon:"✓"
-    };
-
-  }
-
-
-  /*
-    PAROLE CHE INDICANO PRESENZA
-    DI LATTE / DERIVATI
-  */
-
-  const dangerous = [
-
-    "latte",
-    "latte in polvere",
-    "latte scremato",
-    "latte intero",
-    "siero di latte",
-    "proteine del latte",
-    "proteine del siero",
-    "caseina",
-    "caseinato",
-    "lattosio",
-    "panna",
-    "burro",
-    "formaggio",
-    "yogurt",
-    "crema di latte",
-    "milk powder",
-    "whey",
-    "casein",
-    "butter",
-    "cream",
-    "cheese",
-    "milk"
-
-  ];
-
-
-  const found =
-    dangerous.some(word => ingredients.includes(word));
-
-
-  if(found){
-
-    return {
-      status:"danger",
-      title:"CONTIENE LATTE",
-      text:"Negli ingredienti sono presenti riferimenti a latte o derivati.",
-      icon:"!"
-    };
-
-  }
-
-
-  /*
-    TRACCE
-  */
-
-  if(
-    traces.includes("milk") ||
-    traces.includes("latte") ||
-    ingredients.includes("può contenere")
-  ){
-
-    return {
-      status:"warning",
-      title:"ATTENZIONE",
-      text:"Potrebbero essere presenti tracce di latte. Controlla sempre l'etichetta.",
-      icon:"!"
-    };
-
-  }
-
-
-  return {
-    status:"safe",
-    title:"LATTE NON RILEVATO",
-    text:"Negli ingredienti disponibili non sono stati trovati riferimenti a latte o derivati.",
-    icon:"✓"
-  };
-
-}
-
-
-/* =========================
-   PRODUCT RENDER
-========================= */
-
-function renderProduct(product){
-
-  const result =
-    document.getElementById("result");
-
-  const analysis =
-    analyseLactose(product);
-
-
-  const image =
-    product.image_front_small_url ||
-    product.image_front_url ||
-    product.image_url ||
-    "B254A2F-7F3E-4478-B693-CF04829425F8.png";
-
-
-  const name =
-    product.product_name_it ||
-    product.product_name ||
-    "Prodotto senza nome";
-
-
-  const brand =
-    product.brands ||
-    "Marca non disponibile";
-
-
-  const ingredients =
-    product.ingredients_text_it ||
-    product.ingredients_text ||
-    "Ingredienti non disponibili.";
-
-
-  result.innerHTML = `
-
-    <article class="product-card">
-
-      <div class="product-head">
-
-        <img
-          class="product-image"
-          src="${image}"
-          alt="${escapeHtml(name)}"
-          onerror="this.src='B254A2F-7F3E-4478-B693-CF04829425F8.png'"
-        >
-
-        <div class="product-info">
-
-          <h2 class="product-name">
-            ${escapeHtml(name)}
-          </h2>
-
-          <div class="product-brand">
-            ${escapeHtml(brand)}
-          </div>
-
-          <div class="ean">
-            EAN ${product.code || ""}
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="verdict ${analysis.status}">
-
-        <div class="verdict-icon">
-          ${analysis.icon}
-        </div>
-
-        <div class="verdict-title">
-          ${analysis.title}
-        </div>
-
-        <div class="verdict-text">
-          ${analysis.text}
-        </div>
-
-      </div>
-
-
-      <div class="details">
-
-        <div class="section-title">
-          Ingredienti
-        </div>
-
-        <div class="ingredients">
-          ${escapeHtml(ingredients)}
-        </div>
-
-      </div>
-
-    </article>
-
-  `;
-
-  result.style.display = "block";
-
-
-  if(analysis.status === "danger"){
-
-    loadAlternatives(product);
-
-  }
-
-}
-
-
-/* =========================
-   ALTERNATIVES
-========================= */
-
-async function loadAlternatives(product){
-
-  const alternatives =
-    document.getElementById("alternatives");
-
-  const list =
-    document.getElementById("altList");
-
-
-  const category =
-    product.categories_tags?.[0];
-
-
-  if(!category){
-    return;
-  }
-
-
-  try{
-
-    const url =
-      `https://world.openfoodfacts.org/api/v2/search` +
-      `?categories_tags=${encodeURIComponent(category)}` +
-      `&labels_tags_en=lactose-free` +
-      `&fields=code,product_name,image_front_small_url,brands,labels_tags` +
-      `&page_size=8`;
-
-
-    const response =
-      await fetch(url);
-
-
-    const data =
-      await response.json();
-
-
-    if(
-      !data.products ||
-      data.products.length === 0
-    ){
-
-      return;
-
-    }
-
-
-    list.innerHTML = "";
-
-
-    data.products
-      .filter(p =>
-        p.code !== product.code &&
-        p.product_name
-      )
-      .slice(0,6)
-      .forEach(p => {
-
-        const image =
-          p.image_front_small_url ||
-          "B254A2F-7F3E-4478-B693-CF04829425F8.png";
-
-
-        const card =
-          document.createElement("div");
-
-
-        card.className = "alt-card";
-
-
-        card.innerHTML = `
-
-          <img
-            class="alt-image"
-            src="${image}"
-            alt=""
-          >
-
-          <div class="alt-name">
-            ${escapeHtml(p.product_name)}
-          </div>
-
-          <div class="alt-label">
-            ✓ Senza lattosio
-          </div>
-
+    catch(error) {
+
+        result.innerHTML = `
+            <div class="error">
+                <strong>Prodotto non trovato</strong><br><br>
+                Non abbiamo trovato questo codice nel database.
+                Puoi provare a inserirlo nuovamente oppure
+                aggiungere manualmente il prodotto.
+            </div>
         `;
 
+    }
 
-        list.appendChild(card);
+    finally {
 
-      });
+        loading.style.display = "none";
+
+    }
+}
 
 
-    if(list.children.length > 0){
+/* =========================
+   PRODUCT
+========================= */
 
-      alternatives.style.display = "block";
+function showProduct(product, barcode) {
+
+    const result =
+        document.getElementById("result");
+
+    const name =
+        product.product_name_it ||
+        product.product_name ||
+        "Prodotto senza nome";
+
+    const brand =
+        product.brands ||
+        "Marca non disponibile";
+
+    const image =
+        product.image_front_small_url ||
+        product.image_front_url ||
+        product.image_url ||
+        "";
+
+    const ingredients =
+        product.ingredients_text_it ||
+        product.ingredients_text ||
+        "Ingredienti non disponibili.";
+
+    const tags = [
+
+        ...(product.ingredients_analysis_tags || []),
+        ...(product.allergens_tags || [])
+
+    ].map(x => x.toLowerCase());
+
+
+    const lactoseDetected =
+        tags.some(tag =>
+            tag.includes("lactose") ||
+            tag.includes("milk") ||
+            tag.includes("latte")
+        );
+
+
+    const ingredientsLower =
+        ingredients.toLowerCase();
+
+
+    const lactoseTextDetected =
+        /lattosio|latte|siero di latte|caseina|caseinato|burro|panna|formaggio|milk|lactose/.test(
+            ingredientsLower
+        );
+
+
+    let statusClass;
+    let statusTitle;
+    let statusText;
+
+
+    if (lactoseDetected || lactoseTextDetected) {
+
+        statusClass = "danger";
+
+        statusTitle =
+            "LATTOSIO O DERIVATI RILEVATI";
+
+        statusText =
+            "Sono presenti ingredienti o riferimenti compatibili con latte o derivati del latte.";
 
     }
 
-  }
-  catch(error){
+    else if (
+        product.ingredients_text ||
+        product.ingredients_analysis_tags
+    ) {
 
-    console.log("Alternative non disponibili",error);
+        statusClass = "safe";
 
-  }
+        statusTitle =
+            "LATTOSIO NON RILEVATO";
 
+        statusText =
+            "Negli ingredienti disponibili non sono stati trovati riferimenti a lattosio o derivati del latte.";
+
+    }
+
+    else {
+
+        statusClass = "warning";
+
+        statusTitle =
+            "DATI INSUFFICIENTI";
+
+        statusText =
+            "Non ci sono abbastanza informazioni per verificare con sicurezza la presenza di lattosio.";
+
+    }
+
+
+    result.innerHTML = `
+
+        <article class="product-card">
+
+            <div class="product-head">
+
+                ${
+                    image
+                    ?
+                    `<img
+                        class="product-image"
+                        src="${image}"
+                        alt="${escapeHtml(name)}"
+                        onerror="this.style.display='none'"
+                    >`
+                    :
+                    ""
+                }
+
+                <div class="product-info">
+
+                    <h3>
+                        ${escapeHtml(name)}
+                    </h3>
+
+                    <div class="product-brand">
+                        ${escapeHtml(brand)}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="status ${statusClass}">
+
+                <div class="status-icon"></div>
+
+                <h4>
+                    ${statusTitle}
+                </h4>
+
+                <p>
+                    ${statusText}
+                </p>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail-title">
+                    Ingredienti
+                </div>
+
+                <div class="ingredients">
+                    ${escapeHtml(ingredients)}
+                </div>
+
+                <div class="ingredients"
+                     style="margin-top:18px;font-size:13px">
+
+                    Codice EAN: ${barcode}
+
+                    <br>
+
+                    Dati: Open Food Facts
+
+                </div>
+
+
+                ${
+                    lactoseDetected || lactoseTextDetected
+                    ?
+                    `
+                    <div class="alternatives">
+
+                        <h3>
+                            💡 Cerca un'alternativa
+                        </h3>
+
+                        <p>
+                            Questo prodotto potrebbe contenere
+                            lattosio o derivati del latte.
+                            Prova a cercare prodotti con indicazioni
+                            come "senza lattosio", "lactose free"
+                            o alternative vegetali.
+                        </p>
+
+                        <div class="alt-list">
+
+                            <div class="alt">
+                                <strong>
+                                    Versione senza lattosio
+                                </strong>
+
+                                <span>
+                                    CONSIGLIATA
+                                </span>
+                            </div>
+
+                            <div class="alt">
+                                <strong>
+                                    Versione vegetale
+                                </strong>
+
+                                <span>
+                                    ALTERNATIVA
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+            </div>
+
+        </article>
+    `;
 }
 
 
@@ -1176,14 +994,14 @@ async function loadAlternatives(product){
    SECURITY
 ========================= */
 
-function escapeHtml(value){
+function escapeHtml(text) {
 
-  return String(value || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
