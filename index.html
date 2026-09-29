@@ -2,435 +2,545 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f5f1">
 <title>Lactobluster</title>
-
 <script src="https://unpkg.com/html5-qrcode"></script>
-
 <style>
 *{box-sizing:border-box}
-
 body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
-  background:#f6f5f1;
-  color:#171717;
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+background:#f6f5f1;
+color:#171717;
 }
-
 main{
-  max-width:520px;
-  margin:auto;
-  padding:30px 18px 50px;
+max-width:520px;
+margin:auto;
+padding:28px 18px 50px;
 }
-
 header{
-  text-align:center;
-  margin:10px 0 30px;
+text-align:center;
+margin:8px 0 26px;
 }
-
 h1{
-  font-size:42px;
-  margin:0;
-  font-weight:800;
-  letter-spacing:-1.5px;
+font-size:42px;
+margin:0;
+font-weight:800;
+letter-spacing:-1.8px;
 }
-
 header p{
-  color:#777;
-  margin:8px 0 0;
+color:#777;
+margin:8px 0 0;
+font-size:18px;
 }
-
 button{
-  width:100%;
-  border:0;
-  border-radius:18px;
-  padding:18px;
-  background:#111;
-  color:white;
-  font-size:18px;
-  font-weight:700;
+width:100%;
+border:0;
+border-radius:18px;
+padding:18px;
+background:#111;
+color:#fff;
+font-size:18px;
+font-weight:750;
+cursor:pointer;
 }
-
 #reader{
-  display:none;
-  margin-top:20px;
-  border-radius:20px;
-  overflow:hidden;
-  background:#111;
+display:none;
+margin-top:18px;
+border-radius:22px;
+overflow:hidden;
+background:#111;
 }
-
 .message{
-  margin-top:18px;
-  text-align:center;
-  color:#777;
+margin-top:15px;
+text-align:center;
+color:#777;
+min-height:20px;
 }
-
 .card{
-  background:white;
-  border-radius:22px;
-  padding:20px;
-  margin-top:20px;
-  box-shadow:0 8px 30px rgba(0,0,0,.07);
+background:#fff;
+border-radius:24px;
+padding:20px;
+margin-top:20px;
+box-shadow:0 8px 30px rgba(0,0,0,.07);
 }
-
+.product-head{
+display:flex;
+align-items:center;
+gap:16px;
+}
+.product-thumb{
+width:88px;
+height:88px;
+object-fit:contain;
+border-radius:16px;
+background:#f3f3f1;
+flex:0 0 88px;
+}
+.product-info{
+min-width:0;
+}
+.product-info h2{
+margin:0 0 6px;
+font-size:25px;
+line-height:1.08;
+}
+.product-info p{
+margin:0;
+color:#777;
+}
 .status{
-  margin-top:20px;
-  padding:20px;
-  border-radius:18px;
-  text-align:center;
+margin-top:18px;
+padding:20px;
+border-radius:20px;
+text-align:center;
 }
-
 .status .emoji{
-  font-size:42px;
+font-size:42px;
+line-height:1;
 }
-
 .status h2{
-  margin:6px 0;
+margin:8px 0 7px;
+font-size:25px;
+line-height:1.05;
 }
-
 .green{
-  background:#e8f7ed;
-  color:#167a43;
+background:#e8f7ed;
+color:#167a43;
 }
-
 .orange{
-  background:#fff1dc;
-  color:#b96b00;
+background:#fff1dc;
+color:#a96300;
 }
-
 .red{
-  background:#fde9e9;
-  color:#bd2525;
+background:#fde9e9;
+color:#bd2525;
 }
-
-.error{
-  color:#c62828;
-  text-align:center;
-  margin-top:18px;
+.ingredients{
+line-height:1.45;
 }
-
+.alternatives{
+margin-top:24px;
+}
+.alternatives h3{
+margin:0 0 5px;
+font-size:21px;
+}
+.alt-intro{
+color:#777;
+margin:0 0 13px;
+font-size:15px;
+}
+.alt-list{
+display:flex;
+gap:10px;
+overflow-x:auto;
+padding-bottom:5px;
+}
+.alt{
+min-width:135px;
+background:#f7f7f5;
+border-radius:17px;
+padding:10px;
+}
+.alt img{
+width:100%;
+height:95px;
+object-fit:contain;
+border-radius:12px;
+background:white;
+}
+.alt-name{
+font-size:13px;
+font-weight:700;
+line-height:1.2;
+margin-top:8px;
+}
+.alt-brand{
+font-size:11px;
+color:#777;
+margin-top:3px;
+}
+.alt-badge{
+display:inline-block;
+margin-top:7px;
+font-size:10px;
+font-weight:700;
+color:#167a43;
+background:#e8f7ed;
+padding:4px 7px;
+border-radius:999px;
+}
 .fallback{
-  margin-top:20px;
-  padding:18px;
-  background:white;
-  border-radius:20px;
+margin-top:20px;
+padding:20px;
+background:#fff;
+border-radius:22px;
 }
-
+.fallback strong{
+font-size:18px;
+}
 .fallback input{
-  width:100%;
-  padding:14px;
-  margin:12px 0;
-  border:1px solid #ddd;
-  border-radius:12px;
-  font-size:17px;
+width:100%;
+padding:15px;
+margin:12px 0;
+border:1px solid #ddd;
+border-radius:13px;
+font-size:17px;
+background:#fff;
 }
-
-.secondary{
-  background:#e9e9e9;
-  color:#111;
-  font-size:15px;
+.note{
+margin-top:18px;
+padding:14px 15px;
+border-radius:15px;
+background:#f1f1ef;
+color:#666;
+font-size:13px;
+line-height:1.4;
 }
-
 .small{
-  text-align:center;
-  color:#888;
-  font-size:12px;
-  margin-top:15px;
+text-align:center;
+color:#888;
+font-size:12px;
+margin-top:15px;
+}
+.error{
+color:#c62828;
+text-align:center;
+margin-top:18px;
 }
 </style>
 </head>
-
 <body>
-
 <main>
-
 <header>
 <h1>Lactobluster</h1>
 <p>Scansiona. Controlla. Mangia tranquillo.</p>
 </header>
-
 <button id="start">
 📷 SCANSIONA PRODOTTO
 </button>
-
 <div id="reader"></div>
-
 <div id="message" class="message"></div>
-
 <div id="result"></div>
-
 <div class="fallback">
-
 <strong>Non riesci a usare la fotocamera?</strong>
-
 <input
 id="ean"
 inputmode="numeric"
+autocomplete="off"
 placeholder="Inserisci il codice a barre"
 >
-
 <button id="search">
 🔎 CERCA CODICE
 </button>
-
 </div>
-
+<div class="note">
+⚠️ Lactobluster è un aiuto alla lettura dei dati disponibili.
+Per allergie o intolleranze, verifica sempre la confezione originale
+e l'etichetta aggiornata.
+</div>
 </main>
-
 <script>
-
-let scanner = null;
-
-const startButton =
-document.getElementById("start");
-
-const reader =
-document.getElementById("reader");
-
-const message =
-document.getElementById("message");
-
-const result =
-document.getElementById("result");
-
-const ean =
-document.getElementById("ean");
-
-const searchButton =
-document.getElementById("search");
-
-
+let scanner=null;
+const startButton=document.getElementById("start");
+const reader=document.getElementById("reader");
+const message=document.getElementById("message");
+const result=document.getElementById("result");
+const ean=document.getElementById("ean");
+const searchButton=document.getElementById("search");
 function escapeHTML(value){
-
-return String(value || "")
+return String(value||"")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
 .replace(/"/g,"&quot;");
-
 }
-
-
 function stopScanner(){
-
 if(scanner){
-
 try{
-
-scanner.stop();
-
+scanner.stop().catch(()=>{});
 }catch(e){}
-
-scanner = null;
-
+scanner=null;
 }
-
 reader.style.display="none";
-
 startButton.style.display="block";
-
 }
-
-
 function analyzeProduct(product){
-
-const ingredients =
+const ingredients=
 (product.ingredients_text_it ||
 product.ingredients_text ||
 "").toLowerCase();
-
-const allergens =
+const allergens=
 (product.allergens || "").toLowerCase();
-
-
-if(/senza\s+lattosio|lactose[- ]?free/.test(ingredients)){
-
-return {
-className:"green",
-emoji:"🟢",
-title:"SENZA LATTOSIO",
-text:"Il prodotto riporta una dicitura esplicita."
-};
-
-}
-
-
-if(/lattosio|lactose/.test(ingredients)){
-
+const allergenTags=
+(product.allergens_tags || []).join(" ").toLowerCase();
+const labels=
+(
+(product.labels_it || product.labels || "") +
+" " +
+(product.labels_tags || []).join(" ")
+).toLowerCase();
+const lactoseFree=
+/senza\s+lattosio|senza-lattosio|lactose[- ]?free|lactose-free/
+.test(labels+" "+ingredients);
+const explicitLactose=
+/lattosio|lactose/.test(ingredients);
+const milk=
+/\blatte\b|\bmilk\b|siero|whey|caseina|casein|panna|cream|burro|butter|latte in polvere|milk powder/
+.test(ingredients);
+const milkAllergen=
+/milk|latte/.test(allergens+" "+allergenTags);
+if(explicitLactose && !lactoseFree){
 return {
 className:"red",
 emoji:"🔴",
 title:"LATTOSIO RILEVATO",
 text:"Negli ingredienti è presente un riferimento esplicito al lattosio."
 };
-
 }
-
-
-if(
-/latte|milk|siero|whey|caseina|casein|panna|cream|burro|butter/.test(ingredients)
-||
-/milk|latte/.test(allergens)
-){
-
+if(lactoseFree && !explicitLactose){
+return {
+className:"green",
+emoji:"🟢",
+title:"DICHIARATO SENZA LATTOSIO",
+text:"È presente una dicitura relativa all'assenza di lattosio."
+};
+}
+if(milk || milkAllergen){
 return {
 className:"orange",
 emoji:"🟠",
 title:"DA VERIFICARE",
-text:"Sono presenti latte o derivati."
+text:"Sono presenti latte o derivati. Controlla la confezione per la dicitura “senza lattosio”."
 };
-
 }
-
-
+if(!ingredients.trim()){
+return {
+className:"orange",
+emoji:"🟠",
+title:"DATI INSUFFICIENTI",
+text:"Open Food Facts non contiene ingredienti sufficienti per una valutazione affidabile."
+};
+}
 return {
 className:"green",
 emoji:"🟢",
-title:"NESSUN LATTOSIO RILEVATO",
-text:"Non sono stati trovati riferimenti al lattosio."
+title:"LATTOSIO NON RILEVATO",
+text:"Negli ingredienti disponibili non sono stati trovati riferimenti a lattosio o derivati del latte."
 };
-
 }
-
-
-async function searchProduct(code){
-
-code = String(code || "")
-.replace(/\D/g,"");
-
-if(!code){
-
-message.innerHTML =
-'<div class="error">Inserisci un codice a barre valido.</div>';
-
-return;
-
+async function findAlternatives(product){
+const categories=
+product.categories_tags || [];
+if(!categories.length){
+return [];
 }
-
-
-message.innerHTML =
-"🔎 Sto cercando il prodotto...";
-
-result.innerHTML="";
-
-
+const category=categories[categories.length-1];
 try{
-
-const response = await fetch(
-
+const params=new URLSearchParams({
+categories_tags:category,
+page_size:"20",
+fields:
+"code,product_name,product_name_it,brands,image_front_small_url,image_front_thumb_url,ingredients_text_it,ingredients_text,labels,labels_tags"
+});
+const response=
+await fetch(
+"https://world.openfoodfacts.org/api/v2/search?"
++
+params.toString()
+);
+const data=await response.json();
+const products=data.products || [];
+return products
+.filter(p =>
+p.code &&
+p.code !== product.code
+)
+.filter(p => {
+const text=
+(
+(p.ingredients_text_it ||
+p.ingredients_text ||
+"") +
+" " +
+(p.labels || "") +
+" " +
+(p.labels_tags || []).join(" ")
+).toLowerCase();
+return /senza\s+lattosio|senza-lattosio|lactose[- ]?free|lactose-free/
+.test(text);
+})
+.slice(0,3);
+}catch(error){
+return [];
+}
+}
+function renderAlternatives(products){
+if(!products.length){
+return "";
+}
+return `
+<div class="alternatives">
+<h3>💡 Alternative senza lattosio</h3>
+<p class="alt-intro">
+Abbiamo trovato prodotti simili che riportano
+un riferimento al senza lattosio.
+</p>
+<div class="alt-list">
+${products.map(product => {
+const image=
+product.image_front_small_url ||
+product.image_front_thumb_url ||
+"";
+return `
+<div class="alt">
+${image ? `
+<img
+src="${escapeHTML(image)}"
+alt=""
+>
+` : ""}
+<div class="alt-name">
+${escapeHTML(
+product.product_name_it ||
+product.product_name ||
+"Prodotto"
+)}
+</div>
+<div class="alt-brand">
+${escapeHTML(
+product.brands || ""
+)}
+</div>
+<div class="alt-badge">
+🟢 SENZA LATTOSIO
+</div>
+</div>
+`;
+}).join("")}
+</div>
+</div>
+`;
+}
+async function searchProduct(code){
+code=
+String(code||"")
+.replace(/\D/g,"");
+if(!code){
+message.innerHTML=
+'<div class="error">Inserisci un codice a barre valido.</div>';
+return;
+}
+message.innerHTML=
+"🔎 Sto cercando il prodotto...";
+result.innerHTML="";
+try{
+const response=
+await fetch(
 "https://world.openfoodfacts.org/api/v2/product/"
 +
 encodeURIComponent(code)
 +
 ".json"
-
 );
-
-const data = await response.json();
-
-
-if(data.status !== 1){
-
+const data=
+await response.json();
+if(data.status!==1){
 throw new Error("not-found");
-
 }
-
-
-const product = data.product;
-
-const analysis =
+const product=
+data.product || {};
+const analysis=
 analyzeProduct(product);
-
-const name =
+const name=
 product.product_name_it ||
 product.product_name ||
 "Prodotto senza nome";
-
-const brand =
-product.brands || "";
-
-const ingredients =
+const brand=
+product.brands ||
+"";
+const ingredients=
 product.ingredients_text_it ||
 product.ingredients_text ||
 "Ingredienti non disponibili.";
-
-
-result.innerHTML = `
-
+const image=
+product.image_front_small_url ||
+product.image_front_thumb_url ||
+product.image_url ||
+"";
+message.innerHTML=
+"🔎 Cerco anche eventuali alternative...";
+const alternatives=
+await findAlternatives(product);
+result.innerHTML=`
 <div class="card">
-
-<h2>${escapeHTML(name)}</h2>
-
-<p>${escapeHTML(brand)}</p>
-
+<div class="product-head">
+${image ? `
+<img
+class="product-thumb"
+src="${escapeHTML(image)}"
+alt=""
+>
+` : ""}
+<div class="product-info">
+<h2>
+${escapeHTML(name)}
+</h2>
+<p>
+${escapeHTML(brand)}
+</p>
+</div>
+</div>
 <div class="status ${analysis.className}">
-
 <div class="emoji">
 ${analysis.emoji}
 </div>
-
 <h2>
 ${analysis.title}
 </h2>
-
 <div>
 ${escapeHTML(analysis.text)}
 </div>
-
 </div>
-
 <p>
 <strong>Ingredienti:</strong>
 </p>
-
-<p>
+<p class="ingredients">
 ${escapeHTML(ingredients)}
 </p>
-
+${
+analysis.className !== "green"
+?
+renderAlternatives(alternatives)
+:
+""
+}
 <div class="small">
 Codice EAN: ${escapeHTML(code)}
 <br>
 Dati: Open Food Facts
 </div>
-
 </div>
-
 `;
-
 message.innerHTML="";
-
-
 }catch(error){
-
-message.innerHTML =
-'<div class="error">❌ Prodotto non trovato.</div>';
-
+message.innerHTML=
+'<div class="error">❌ Prodotto non trovato in Open Food Facts.</div>';
 }
-
 }
-
-
 async function startScanner(){
-
-message.innerHTML =
+message.innerHTML=
 "📷 Avvio fotocamera...";
-
-
 reader.style.display="block";
-
-
 try{
-
-scanner =
+scanner=
 new Html5Qrcode("reader");
-
-
 await scanner.start(
-
 {
 facingMode:"environment"
 },
-
 {
 fps:10,
 qrbox:{
@@ -438,78 +548,45 @@ width:290,
 height:130
 }
 },
-
-decodedText => {
-
+decodedText=>{
 stopScanner();
-
 searchProduct(decodedText);
-
 },
-
-errorMessage => {}
-
+()=>{}
 );
-
-
 startButton.style.display="none";
-
-message.innerHTML =
+message.innerHTML=
 "📷 Inquadra il codice a barre";
-
-
 }catch(error){
-
 stopScanner();
-
-message.innerHTML = `
-
+message.innerHTML=
+`
 <div class="error">
-
 ❌ Non riesco ad accedere alla fotocamera.
-
 <div class="small">
-
-Apri Lactobluster direttamente in Safari
-e consenti l'accesso alla fotocamera.
-
+Controlla i permessi della fotocamera
+e apri Lactobluster direttamente in Safari.
 </div>
-
 </div>
-
 `;
-
 }
-
 }
-
-
 startButton.addEventListener(
 "click",
 startScanner
 );
-
-
 searchButton.addEventListener(
 "click",
-() => searchProduct(ean.value)
+()=>searchProduct(ean.value)
 );
-
-
 ean.addEventListener(
 "keydown",
-event => {
-
-if(event.key === "Enter"){
-
+event=>{
+if(event.key==="Enter"){
 searchProduct(ean.value);
-
 }
-
 }
 );
-
 </script>
-
 </body>
 </html>
